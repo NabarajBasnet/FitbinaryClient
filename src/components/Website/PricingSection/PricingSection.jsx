@@ -11,12 +11,11 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast as sonnertoast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "@/components/Loader/Loader";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
     Check,
     Zap,
@@ -32,327 +31,235 @@ import { Button } from "@/components/ui/button";
 const PricingSection = () => {
     const [loadingButtons, setLoadingButtons] = useState({});
     const router = useRouter();
-
     const [orgSetupDialog, setOrgSetupDialog] = useState(false);
     const [resBody, setResBody] = useState();
 
-    const fetchPlans = async () => {
+    // Memoized fetch function to prevent unnecessary recreations
+    const fetchPlans = useMemo(() => async () => {
         try {
-            const response = await fetch(
-                `http://localhost:3000/api/subscription/getall`
-            );
-            const responseBody = await response.json();
-            return responseBody;
+            const response = await fetch(`/api/subscription/getall`);
+            return await response.json();
         } catch (error) {
-            sonnertoast.error("Error fetching plans:", error.error);
+            sonnertoast.error("Error fetching plans");
             console.error("Error fetching plans:", error);
+            return { subscriptions: [] };
         }
-    };
+    }, []);
 
     const { data, isLoading } = useQuery({
         queryKey: ["plans"],
         queryFn: fetchPlans,
     });
 
-    const { subscriptions } = data || {};
+    const subscriptions = data?.subscriptions || [];
 
-    const getPlanIcon = (index) => {
-        const icons = [Zap, Crown, Sparkles];
-        return icons[index] || Star;
-    };
+    // Memoized plan data to prevent unnecessary recalculations
+    const planData = useMemo(() => [
+        { icon: Zap, accent: "blue" },
+        { icon: Crown, accent: "purple" },
+        { icon: Sparkles, accent: "orange" }
+    ], []);
 
-    const getPlanGradient = (index) => {
-        const gradients = [
-            "from-blue-500 to-blue-500",
-            "from-sky-400 to-sky-400",
-            "from-orange-500 to-red-500"
-        ];
-        return gradients[index] || "from-gray-500 to-gray-600";
-    };
+    const faqs = useMemo(() => [
+        {
+            question: "Can I change my plan later?",
+            answer: "Yes, you can upgrade or downgrade your plan at any time. Changes will be prorated automatically."
+        },
+        {
+            question: "Is there a free trial?",
+            answer: "All plans come with a 3 weeks free trial. No credit card required to start exploring."
+        },
+        {
+            question: "What payment methods do you accept?",
+            answer: "We accept all major credit cards, PayPal, and bank transfers for annual plans."
+        },
+        {
+            question: "Do you offer refunds?",
+            answer: "Yes, we offer a 30-day money-back guarantee on all plans."
+        }
+    ], []);
 
-    const getPlanCardBg = (index) => {
-        const backgrounds = [
-            "bg-gradient-to-br from-gray-800 to-gray-900",
-            "bg-gradient-to-br from-gray-900 to-gray-800",
-            "bg-gradient-to-br from-gray-800 to-gray-950"
-        ];
-        return backgrounds[index] || "bg-gray-900";
-    };
-
-    const getPlanAccent = (index) => {
-        const accents = [
-            "blue",
-            "purple",
-            "orange"
-        ];
-        return accents[index] || "gray";
-    };
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <Loader />
+            </div>
+        );
+    }
 
     return (
-        <section id="pricing" className="w-full min-h-screen bg-gray-950 relative overflow-hidden flex items-center">
+        <section id="pricing" className="w-full min-h-screen bg-gray-950 relative overflow-hidden">
+            <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                {/* Hero Section - Optimized with less markup */}
+                <div className="text-center mb-16">
+                    <div className="inline-flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-full px-4 py-2 mb-6">
+                        <Sparkles className="w-4 h-4 text-blue-400" />
+                        <span className="text-sm font-medium text-gray-300">
+                            Choose the perfect plan for your fitness center
+                        </span>
+                    </div>
 
-            <style jsx>{`
-                @keyframes float1 {
-                    0%, 100% { transform: translate(0, 0); }
-                    50% { transform: translate(-20px, -20px); }
-                }
-                @keyframes float2 {
-                    0%, 100% { transform: translate(0, 0); }
-                    50% { transform: translate(20px, 20px); }
-                }
-                @keyframes float3 {
-                    0%, 100% { transform: translate(-50%, -50%); }
-                    50% { transform: translate(-55%, -45%); }
-                }
-                .animate-float1 { animation: float1 12s ease-in-out infinite; }
-                .animate-float2 { animation: float2 15s ease-in-out infinite; }
-                .animate-float3 { animation: float3 18s ease-in-out infinite; }
-            `}</style>
+                    <h1 className="text-7xl font-bold text-white mb-4">
+                        Unlock Your Gym's <br />
+                        <span className="bg-gradient-to-r from-blue-400 via-sky-200 to-white bg-clip-text text-transparent">
+                            Full Potential
+                        </span>
+                    </h1>
 
-            <AlertDialog open={orgSetupDialog} onOpenChange={setOrgSetupDialog}>
-                <AlertDialogContent className="bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl max-w-md">
-                    <AlertDialogHeader className="flex items-start gap-4 p-6">
-                        <div className="flex-shrink-0 w-12 h-12 bg-amber-900/30 rounded-xl flex items-center justify-center">
-                            <AlertTriangle className="text-amber-400 w-6 h-6" />
+                    <p className="text-gray-400 max-w-2xl mx-auto">
+                        Transform your fitness business with our comprehensive management platform.
+                    </p>
+                </div>
+
+                {/* Plans Grid - Simplified with consistent heights */}
+                {subscriptions.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
+                        {subscriptions.map((plan, index) => {
+                            const { icon: Icon, accent } = planData[index] || { icon: Star, accent: "gray" };
+                            const isPopular = index === 1;
+
+                            return (
+                                <div
+                                    key={plan._id}
+                                    className={`relative flex flex-col h-full ${isPopular ? "md:-mt-2" : ""}`}
+                                >
+                                    {isPopular && (
+                                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                                            <div className="bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-semibold">
+                                                Most Popular
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className={`flex-1 bg-gray-900 rounded-xl border ${isPopular ? "border-blue-500" : "border-gray-800"} p-6 flex flex-col transition-all hover:border-gray-600`}>
+                                        <div className="mb-6 flex items-center gap-3">
+                                            <div className={`p-3 rounded-lg bg-${accent}-500/10`}>
+                                                <Icon className={`w-5 h-5 text-${accent}-400`} />
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white">
+                                                {plan.subscriptionName}
+                                            </h3>
+                                        </div>
+
+                                        <p className="text-gray-400 text-sm mb-6">{plan.subscriptionDescription}</p>
+
+                                        <div className="mb-6">
+                                            <div className="flex items-baseline gap-2">
+                                                <span className="text-4xl font-bold text-white">
+                                                    {plan.currency}{plan.subscriptionPrice}
+                                                </span>
+                                                <span className="text-gray-400">/month</span>
+                                            </div>
+                                        </div>
+
+                                        <ul className="space-y-3 mb-8">
+                                            {plan.subscriptionFeatures.map((feature, i) => (
+                                                <li key={i} className="flex items-start gap-3">
+                                                    <CheckCircle className={`flex-shrink-0 w-4 h-4 mt-1 text-${accent}-400`} />
+                                                    <span className="text-gray-300 text-sm">{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+
+                                        <div className="mt-auto pt-6 border-t border-gray-800">
+                                            <button
+                                                onClick={() => window.location.href = '/login'}
+                                                disabled={loadingButtons[plan._id]}
+                                                className={`w-full py-3 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 
+                                                    ${isPopular ? `bg-${accent}-500 text-white hover:bg-${accent}-600` : "bg-gray-800 hover:bg-gray-700 text-white"}
+                                                    ${loadingButtons[plan._id] ? "opacity-75 cursor-not-allowed" : ""}`}
+                                            >
+                                                {loadingButtons[plan._id] ? (
+                                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                                ) : (
+                                                    <>
+                                                        Get Started
+                                                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                    </>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <div className="flex items-center justify-center p-8">
+                        <div className="max-w-md w-full bg-gray-900 rounded-xl p-8 border border-gray-800 text-center">
+                            <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <Star className="w-5 h-5 text-white" />
+                            </div>
+                            <h1 className="text-2xl font-bold text-white mb-3">
+                                No Plans Available
+                            </h1>
+                            <p className="text-gray-400 text-sm mb-6">
+                                Subscription plans haven't been configured yet.
+                            </p>
+                            <Button
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                                onClick={() => router.push("/clientarea/dashboard")}
+                            >
+                                Back to Dashboard
+                            </Button>
                         </div>
-                        <div className="flex-1">
-                            <AlertDialogTitle className="text-xl font-semibold text-white">
+                    </div>
+                )}
+
+                {/* FAQ Section - More compact and organized */}
+                <div className="max-w-4xl mx-auto">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold text-white mb-3">
+                            <span className="bg-gradient-to-r from-blue-600 via-sky-300 to-white bg-clip-text text-transparent">
+                                Frequently Asked Questions
+                            </span>
+                        </h2>
+                        <p className="text-gray-400 text-sm">
+                            Everything you need to know about our pricing and plans
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {faqs.map((faq, i) => (
+                            <div key={i} className="bg-gray-900 rounded-lg p-5 border border-gray-800">
+                                <h3 className="text-sm font-semibold text-white mb-2">{faq.question}</h3>
+                                <p className="text-gray-400 text-sm">{faq.answer}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Alert Dialog - Optimized */}
+            <AlertDialog open={orgSetupDialog} onOpenChange={setOrgSetupDialog}>
+                <AlertDialogContent className="bg-gray-900 border border-gray-800 rounded-xl max-w-md">
+                    <AlertDialogHeader className="flex items-start gap-3 p-5">
+                        <div className="flex-shrink-0 w-10 h-10 bg-amber-900/20 rounded-lg flex items-center justify-center">
+                            <AlertTriangle className="text-amber-400 w-5 h-5" />
+                        </div>
+                        <div>
+                            <AlertDialogTitle className="text-lg font-semibold text-white">
                                 Complete Your Organization Setup
                             </AlertDialogTitle>
-                            <AlertDialogDescription className="text-sm mt-2 text-gray-300 leading-relaxed">
-                                {resBody?.message || "To access all features and start managing your gym efficiently, please complete the remaining onboarding steps."}
+                            <AlertDialogDescription className="text-gray-400 text-sm mt-1">
+                                {resBody?.message || "Please complete the remaining onboarding steps."}
                             </AlertDialogDescription>
                         </div>
                     </AlertDialogHeader>
 
-                    <AlertDialogFooter className="flex gap-3 p-6 pt-0">
-                        <AlertDialogCancel className="flex-1 bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 rounded-xl">
+                    <AlertDialogFooter className="flex gap-2 p-5 pt-0">
+                        <AlertDialogCancel className="bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700 rounded-lg">
                             Not Now
                         </AlertDialogCancel>
                         <AlertDialogAction
                             onClick={() => router.push(resBody?.redirect)}
-                            className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-700 hover:to-blue-600 rounded-xl shadow-lg"
+                            className="bg-blue-600 text-white hover:bg-blue-700 rounded-lg"
                         >
                             Complete Setup
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-
-            {isLoading ? (
-                <div className="min-h-screen flex items-center justify-center">
-                    <Loader />
-                </div>
-            ) : Array.isArray(subscriptions) && subscriptions.length > 0 ? (
-                <div className="w-full relative z-10">
-
-                    {/* Hero Section */}
-                    <div className="w-full pt-20 pb-16">
-                        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                            <div className="inline-flex items-center gap-2 bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-full px-4 py-2 mb-8">
-                                <Sparkles className="w-4 h-4 text-blue-400" />
-                                <span className="text-sm font-medium text-gray-300">
-                                    Choose the perfect plan for your gym
-                                </span>
-                            </div>
-
-                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-                                Unlock Your Gym's
-                                <br />
-                                <span className="bg-gradient-to-r from-blue-400 via-sky-200 to-white bg-clip-text text-transparent">
-                                    Full Potential
-                                </span>
-                            </h1>
-
-                            <p className="text-md sm:text-xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
-                                Transform your fitness business with our comprehensive management platform.
-                                From boutique studios to enterprise facilities, we scale with your success.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Plans Grid */}
-                    <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                            {subscriptions.map((plan, index) => {
-                                const Icon = getPlanIcon(index);
-                                const isPopular = index === 1;
-                                const gradient = getPlanGradient(index);
-                                const cardBg = getPlanCardBg(index);
-                                const accent = getPlanAccent(index);
-
-                                return (
-                                    <div
-                                        key={plan._id}
-                                        className={`relative group ${isPopular
-                                            ? "lg:scale-105 lg:-mt-4 lg:mb-4"
-                                            : "hover:scale-[1.02]"
-                                            } transition-all duration-500 ease-out`}
-                                    >
-                                        {/* Popular Badge */}
-                                        {isPopular && (
-                                            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
-                                                <div className="bg-gradient-to-r from-blue-600 to-sky-400 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
-                                                    <Star className="w-4 h-4 inline mr-1" />
-                                                    Most Popular
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* Card */}
-                                        <div className={`relative ${cardBg} backdrop-blur-sm rounded-3xl p-8 border transition-all duration-500 h-full flex flex-col group-hover:shadow-2xl ${isPopular
-                                            ? "border-purple-500/30 shadow-xl shadow-purple-900/20"
-                                            : "border-gray-700 shadow-lg hover:border-gray-600"
-                                            }`}>
-
-                                            {/* Plan Header */}
-                                            <div className="relative z-10 flex-1">
-                                                {/* Icon */}
-                                                <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${gradient} mb-6 shadow-lg`}>
-                                                    <Icon className="w-8 h-8 text-white" />
-                                                </div>
-
-                                                {/* Plan Name & Description */}
-                                                <h3 className="text-2xl font-bold text-white mb-3">
-                                                    {plan.subscriptionName}
-                                                </h3>
-                                                <p className="text-gray-300 mb-6 leading-relaxed">
-                                                    {plan.subscriptionDescription}
-                                                </p>
-
-                                                {/* Pricing */}
-                                                <div className="mb-8">
-                                                    <div className="flex items-baseline gap-2">
-                                                        <span className="text-5xl lg:text-6xl font-bold text-white">
-                                                            {plan.currency}{plan.subscriptionPrice}
-                                                        </span>
-                                                        <div className="flex flex-col">
-                                                            <span className="text-gray-400 text-lg font-medium">
-                                                                / month
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Features */}
-                                                <div className="space-y-4 mb-8">
-                                                    {plan.subscriptionFeatures.map((feature, featureIndex) => (
-                                                        <div
-                                                            key={featureIndex}
-                                                            className="flex items-start gap-3"
-                                                        >
-                                                            <div className={`flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center mt-0.5 shadow-sm`}>
-                                                                <CheckCircle className="w-4 h-4 text-white" />
-                                                            </div>
-                                                            <span className="text-gray-300 leading-relaxed">
-                                                                {feature}
-                                                            </span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            {/* CTA Section */}
-                                            <div className="mt-auto pt-6 border-t border-gray-700">
-                                                <button
-                                                    onClick={() => window.location.href = '/login'}
-                                                    disabled={loadingButtons[plan._id]}
-                                                    className={`w-full py-4 px-6 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-2 group/btn ${isPopular
-                                                        ? `bg-gradient-to-r ${gradient} hover:shadow-lg hover:shadow-${accent}-500/25 text-white transform hover:-translate-y-0.5`
-                                                        : "bg-gray-700 hover:bg-gray-600 text-white border border-gray-600"
-                                                        } ${loadingButtons[plan._id] ? "opacity-75 cursor-not-allowed" : ""}`}
-                                                >
-                                                    {loadingButtons[plan._id] ? (
-                                                        <Loader2 className="w-5 h-5 animate-spin" />
-                                                    ) : (
-                                                        <>
-                                                            Get Started
-                                                            <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-                                                        </>
-                                                    )}
-                                                </button>
-
-                                                {/* Guarantee */}
-                                                <div className="flex items-center justify-center gap-2 mt-4">
-                                                    <CheckCircle className="w-4 h-4 text-green-400" />
-                                                    <span className="text-sm text-gray-400">
-                                                        30-day money-back guarantee
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-
-                        {/* FAQ Section */}
-                        <div className="w-full mt-24">
-                            <div className="text-center mb-16">
-                                <h2 className="text-4xl lg:text-5xl bg-gradient-to-r from-blue-600 via-sky-300 to-white font-bold bg-clip-text text-transparent mb-4">
-                                    Frequently Asked Questions
-                                </h2>
-                                <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-                                    Everything you need to know about our pricing and plans
-                                </p>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 w-full mx-auto">
-                                {[
-                                    {
-                                        question: "Can I change my plan later?",
-                                        answer: "Yes, you can upgrade or downgrade your plan at any time. Changes will be prorated automatically."
-                                    },
-                                    {
-                                        question: "Is there a free trial?",
-                                        answer: "All plans come with a 3 weeks free trial. No credit card required to start exploring our platform."
-                                    },
-                                    {
-                                        question: "What payment methods do you accept?",
-                                        answer: "We accept all major credit cards, PayPal, and bank transfers for annual plans."
-                                    },
-                                    {
-                                        question: "Do you offer refunds?",
-                                        answer: "Yes, we offer a 30-day money-back guarantee on all plans, no questions asked."
-                                    }
-                                ].map((faq, index) => (
-                                    <div
-                                        key={index}
-                                        className="bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-gray-700 hover:border-gray-600 transition-all duration-300 hover:shadow-lg"
-                                    >
-                                        <h3 className="text-lg lg:text-xl font-bold text-sky-400 text-white mb-3">
-                                            {faq.question}
-                                        </h3>
-                                        <p className="text-gray-300 leading-relaxed text-sm">
-                                            {faq.answer}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ) : (
-                <div className="min-h-screen flex items-center justify-center p-4 relative z-10">
-                    <div className="max-w-md w-full bg-gray-800/80 backdrop-blur-sm rounded-3xl p-12 border border-gray-700 shadow-xl text-center">
-                        <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                            <Star className="w-8 h-8 text-white" />
-                        </div>
-                        <h1 className="text-3xl font-bold text-white mb-4">
-                            No Plans Available
-                        </h1>
-                        <p className="text-gray-300 mb-8 leading-relaxed">
-                            Subscription plans haven't been configured yet. Please check back later or contact support.
-                        </p>
-                        <Button
-                            className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-2xl hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-lg"
-                            onClick={() => router.push("/clientarea/dashboard")}
-                        >
-                            Back to Dashboard
-                        </Button>
-                    </div>
-                </div>
-            )}
         </section>
     );
 };
