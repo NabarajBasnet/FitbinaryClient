@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const ClientTestimonials = () => {
     const getAllTestimonials = async () => {
         try {
-            const response = await fetch("https://fitbinary.com/api/testimonals/return-all");
+            const response = await fetch("http://localhost:3000/api/testimonals/return-all");
             const resBody = await response.json();
             return resBody;
         } catch (error) {
@@ -113,7 +113,7 @@ const ClientTestimonials = () => {
     };
 
     return (
-        <div className="w-full bg-gray-950 py-12">
+        <div id="testimonals" className="w-full bg-gray-950 py-12">
             <div className="mx-auto w-full px-6 lg:px-8">
                 <div className="mx-auto w-full text-center mb-12">
                     <span className="text-4xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-sky-300 to-white">

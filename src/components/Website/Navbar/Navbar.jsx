@@ -87,7 +87,7 @@ const Navbar = () => {
                 },
                 {
                     name: 'Member Success',
-                    href: '#trusted',
+                    href: '#testimonals',
                     description: 'Real stories from our community of achievers',
                     icon: Star
                 }
