@@ -19,7 +19,26 @@ import {
   Activity,
   Settings,
   BarChart3,
-  Target
+  Target,
+  Home,
+  UserCheck,
+  CreditCard,
+  Dumbbell,
+  Bell,
+  LogOut,
+  Search,
+  Filter,
+  MoreVertical,
+  Plus,
+  CheckCircle,
+  AlertTriangle,
+  Database,
+  Cpu,
+  Wifi,
+  Server,
+  Building,
+  FileText,
+  PieChart
 } from "lucide-react";
 import FeaturesSection from "@/components/Website/FeaturesSection/FeaturesSection";
 import TrustedBySection from "@/components/Website/TrustedBySection/TrustedBySection";
@@ -33,213 +52,468 @@ import BackToTop from "@/components/Website/BackToTop/BackToTop";
 import CookieConsent from "@/components/Website/CookiesConsent/CookiesConsent";
 import ClientTestimonals from "@/components/Website/Testimonal/Testimonal";
 
-// Custom Dashboard Components
+// Enhanced User Dashboard Component
 const UserDashboard = () => {
-  const [selectedTab, setSelectedTab] = useState('overview');
+  const [selectedPage, setSelectedPage] = useState('dashboard');
+
+  const sidebarItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: Home },
+    { id: 'attendance', label: 'Attendance', icon: UserCheck },
+    { id: 'membership', label: 'Membership', icon: CreditCard },
+    { id: 'classes', label: 'Classes', icon: Dumbbell },
+    { id: 'notifications', label: 'Notifications', icon: Bell, badge: '3' }
+  ];
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden h-96">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">Member Portal</h3>
-            <p className="text-sm text-gray-600">Welcome back, Sarah</p>
-          </div>
-          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-            <User className="w-5 h-5 text-blue-600" />
+    <div className="bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden h-[500px] flex">
+      {/* Sidebar */}
+      <div className="w-44 bg-slate-800 border-r border-slate-700 flex flex-col">
+        {/* Logo Area */}
+        <div className="px-3 py-8 border-b border-slate-700">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">FB</span>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold text-sm">FIT BINARY</h3>
+              <p className="text-slate-400 text-xs">Kathmandu</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Navigation Tabs */}
-      <div className="px-6 pt-4">
-        <div className="flex space-x-6 border-b border-gray-200">
-          {['overview', 'classes', 'progress'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setSelectedTab(tab)}
-              className={`pb-3 px-1 text-sm font-medium capitalize transition-colors ${selectedTab === tab
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-500 hover:text-gray-700'
-                }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-6 flex-1">
-        {selectedTab === 'overview' && (
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-blue-50 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Active Membership</p>
-                  <p className="text-lg font-semibold text-gray-900">Premium</p>
-                </div>
-                <Target className="w-8 h-8 text-blue-600" />
-              </div>
-            </div>
-            <div className="bg-green-50 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">This Month</p>
-                  <p className="text-lg font-semibold text-gray-900">12 Visits</p>
-                </div>
-                <Activity className="w-8 h-8 text-green-600" />
-              </div>
-            </div>
-            <div className="col-span-2 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4">
-              <p className="text-sm text-gray-600 mb-2">Monthly Goal Progress</p>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <motion.div
-                  className="bg-purple-600 h-2 rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: '75%' }}
-                  transition={{ delay: 0.5, duration: 1 }}
-                />
-              </div>
-              <p className="text-xs text-gray-600 mt-1">15/20 visits completed</p>
-            </div>
-          </div>
-        )}
-
-        {selectedTab === 'classes' && (
-          <div className="space-y-3">
-            {[
-              { name: "Morning Yoga", time: "8:00 AM", location: "Studio A" },
-              { name: "HIIT Training", time: "6:00 PM", location: "Gym Floor" },
-              { name: "Spin Class", time: "7:30 PM", location: "Spin Room" }
-            ].map((cls, idx) => (
-              <motion.div
-                key={idx}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.1 }}
+        {/* Navigation */}
+        <div className="flex-1 p-2">
+          <div className="space-y-1">
+            <p className="text-slate-500 text-xs uppercase tracking-wide font-medium px-3 mb-3">MAIN</p>
+            {sidebarItems.map((item) => (
+              <motion.button
+                key={item.id}
+                onClick={() => setSelectedPage(item.id)}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${selectedPage === item.id
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                  }`}
                 whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <div>
-                  <p className="font-medium text-gray-900">{cls.name}</p>
-                  <p className="text-sm text-gray-600">{cls.location}</p>
+                <div className="flex items-center space-x-3">
+                  <item.icon className="w-4 h-4" />
+                  <span>{item.label}</span>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-900">{cls.time}</p>
-                  <p className="text-xs text-green-600">Available</p>
-                </div>
-              </motion.div>
+                {item.badge && (
+                  <span className="bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full mx-1">
+                    {item.badge}
+                  </span>
+                )}
+              </motion.button>
             ))}
           </div>
-        )}
+        </div>
 
-        {selectedTab === 'progress' && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-blue-50 rounded-lg p-4 text-center">
-                <p className="text-2xl font-bold text-blue-600">28</p>
-                <p className="text-sm text-gray-600">Days Active</p>
-              </div>
-              <div className="bg-orange-50 rounded-lg p-4 text-center">
-                <p className="text-2xl font-bold text-orange-600">840</p>
-                <p className="text-sm text-gray-600">Calories Burned</p>
+        {/* User Profile */}
+        <div className="p-4 border-t border-slate-700">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center">
+              <User className="w-4 h-4 text-slate-300" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-white text-sm font-medium truncate">Sarah Johnson</p>
+              <p className="text-slate-400 text-xs">Premium Member</p>
+            </div>
+            <LogOut className="w-4 h-4 text-slate-400 hover:text-white cursor-pointer" />
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-white text-lg font-semibold">Good Evening, Sarah</h2>
+            </div>
+            <div className="flex items-center space-x-3">
+              <div className="text-slate-400 text-xs">07/31/2025</div>
+              <div className="text-slate-400 text-xs">10:49:53 PM</div>
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">SJ</span>
               </div>
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Page Content */}
+        <div className="flex-1 p-6 overflow-y-auto">
+          {selectedPage === 'dashboard' && (
+            <div className="space-y-6">
+              {/* Stats Cards */}
+              <div className="grid grid-cols-2 gap-4">
+                <motion.div
+                  className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <Target className="w-5 h-5" />
+                    <span className="text-xs bg-white/20 px-2 py-1 rounded">Active</span>
+                  </div>
+                  <p className="text-xl font-bold">Premium</p>
+                  <p className="text-xs opacity-90">Membership Status</p>
+                </motion.div>
+
+                <motion.div
+                  className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 text-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <Activity className="w-5 h-5" />
+                    <span className="text-xs bg-white/20 px-2 py-1 rounded">+18%</span>
+                  </div>
+                  <p className="text-xl font-bold">15</p>
+                  <p className="text-xs opacity-90">This Month Visits</p>
+                </motion.div>
+              </div>
+
+              {/* Progress Section */}
+              <div className="bg-slate-800 rounded-xl p-5">
+                <h3 className="text-white font-semibold mb-4">Monthly Progress</h3>
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-slate-300">Workout Goal</span>
+                      <span className="text-white">15/20 sessions</span>
+                    </div>
+                    <div className="w-full bg-slate-700 rounded-full h-2">
+                      <motion.div
+                        className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: '75%' }}
+                        transition={{ delay: 0.5, duration: 1 }}
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 pt-2">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-orange-400">840</p>
+                      <p className="text-xs text-slate-400">Calories Burned</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-cyan-400">28</p>
+                      <p className="text-xs text-slate-400">Active Days</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {selectedPage === 'classes' && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-white font-semibold">Upcoming Classes</h3>
+                <Plus className="w-5 h-5 text-slate-400 hover:text-white cursor-pointer" />
+              </div>
+              {[
+                { name: "Morning Yoga", time: "8:00 AM", location: "Studio A", status: "booked" },
+                { name: "HIIT Training", time: "6:00 PM", location: "Gym Floor", status: "available" },
+                { name: "Spin Class", time: "7:30 PM", location: "Spin Room", status: "available" }
+              ].map((cls, idx) => (
+                <motion.div
+                  key={idx}
+                  className="bg-slate-800 rounded-lg p-4 hover:bg-slate-700 transition-all cursor-pointer"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-white font-medium">{cls.name}</p>
+                      <p className="text-slate-400 text-sm">{cls.location}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white text-sm font-medium">{cls.time}</p>
+                      <span className={`text-xs px-2 py-1 rounded-full ${cls.status === 'booked'
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-green-100 text-green-800'
+                        }`}>
+                        {cls.status === 'booked' ? 'Booked' : 'Available'}
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
+// Enhanced Admin Dashboard Component
 const TenantDashboard = () => {
-  const [activeMetric, setActiveMetric] = useState('revenue');
+  const [selectedPage, setSelectedPage] = useState('dashboard');
 
-  const metrics = [
-    { id: 'revenue', label: 'Revenue', value: '$24,500', change: '+12%', icon: DollarSign, color: 'text-green-600' },
-    { id: 'members', label: 'Active Members', value: '1,247', change: '+8%', icon: Users, color: 'text-blue-600' },
-    { id: 'locations', label: 'Locations', value: '8', change: '+2', icon: MapPin, color: 'text-purple-600' }
+  const sidebarItems = [
+    { id: 'dashboard', label: 'Admin Dashboard', icon: Home, subtitle: 'System Overview & Analytics' },
+    { id: 'tenants', label: 'Tenant Management', icon: Building, subtitle: 'Organizations & Clients' },
+    { id: 'orders', label: 'Order Management', icon: FileText, subtitle: 'Order Management' },
+    { id: 'subscriptions', label: 'Subscription Management', icon: CreditCard, subtitle: 'Plans & Billing Control' },
+    { id: 'demos', label: 'Demo Management', icon: PieChart, subtitle: 'Handle Demos' },
+    { id: 'contacts', label: 'Contact Management', icon: Users, subtitle: 'Handle Contacts' }
+  ];
+
+  const systemAlerts = [
+    { type: 'error', count: 2 }
+  ];
+
+  const topPerformingGyms = [
+    { name: 'FitLife Premium', locations: 12, members: '2,847', revenue: '$128,500', growth: '+12.5%', plan: 'Enterprise', logo: '🏃' },
+    { name: 'PowerHouse Gyms', locations: 8, members: '1,923', revenue: '$89,200', growth: '+8.3%', plan: 'Professional', logo: '💪' },
+    { name: 'Elite Fitness', locations: 15, members: '3,421', revenue: '$156,800', growth: '-2.1%', plan: 'Enterprise', logo: '⚡' },
+    { name: 'Community Wellness', locations: 5, members: '892', revenue: '$42,100', growth: '+15.7%', plan: 'Basic', logo: '⭐' }
+  ];
+
+  const systemHealthMetrics = [
+    { name: 'API Gateway', status: 'operational', uptime: '99.98%' },
+    { name: 'Database Cluster', status: 'operational', uptime: '99.95%' },
+    { name: 'Payment Processing', status: 'operational', uptime: '99.99%' },
+    { name: 'CDN & Assets', status: 'degraded', uptime: '98.12%' },
+    { name: 'Analytics Engine', status: 'operational', uptime: '99.87%' },
+    { name: 'Notification Service', status: 'maintenance', uptime: '95.23%' }
   ];
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden h-96">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-gray-50 to-slate-50 px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">Admin Dashboard</h3>
-            <p className="text-sm text-gray-600">FitChain Enterprise</p>
+    <div className="bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden h-[500px] flex">
+      {/* Sidebar */}
+      <div className="w-80 bg-slate-800 border-r border-slate-700 flex flex-col">
+        {/* Logo Area */}
+        <div className="p-6 border-b border-slate-700">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold">NB</span>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold">Nabaraj Basnet</h3>
+              <p className="text-slate-400 text-xs">🔑 Root User</p>
+            </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <Settings className="w-5 h-5 text-gray-400" />
-            <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex-1 p-4 overflow-y-auto">
+          <div className="space-y-2">
+            {sidebarItems.map((item) => (
+              <motion.button
+                key={item.id}
+                onClick={() => setSelectedPage(item.id)}
+                className={`w-full text-left px-4 py-3 rounded-lg transition-all ${selectedPage === item.id
+                  ? 'bg-slate-700 text-white border-l-4 border-blue-500'
+                  : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                  }`}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+              >
+                <div className="flex items-start space-x-3">
+                  <item.icon className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium text-sm">{item.label}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">{item.subtitle}</p>
+                  </div>
+                </div>
+              </motion.button>
+            ))}
           </div>
+
+          {/* System Controls */}
+          <div className="mt-6 pt-6 border-t border-slate-700">
+            <p className="text-slate-500 text-xs uppercase tracking-wide font-medium px-4 mb-3">SYSTEM CONTROLS</p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between px-4 py-2 text-sm">
+                <div className="flex items-center space-x-2">
+                  <AlertTriangle className="w-4 h-4 text-red-400" />
+                  <span className="text-slate-300">System Alerts</span>
+                </div>
+                <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Secure Logout */}
+        <div className="p-4 border-t border-slate-700">
+          <button className="w-full flex items-center space-x-3 px-4 py-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-all">
+            <LogOut className="w-4 h-4" />
+            <div className="text-left">
+              <p className="text-sm font-medium">Secure Logout</p>
+              <p className="text-xs text-slate-500">End admin session</p>
+            </div>
+          </button>
         </div>
       </div>
 
-      {/* Metrics Grid */}
-      <div className="p-6 flex-1">
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          {metrics.map((metric, idx) => (
-            <motion.div
-              key={metric.id}
-              className={`p-3 rounded-lg border transition-all cursor-pointer ${activeMetric === metric.id
-                ? 'border-blue-200 bg-blue-50'
-                : 'border-gray-200 hover:border-gray-300'
-                }`}
-              onClick={() => setActiveMetric(metric.id)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <metric.icon className={`w-4 h-4 ${metric.color}`} />
-                <span className="text-xs text-green-600 font-medium">{metric.change}</span>
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center space-x-2 mb-1">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span className="text-green-400 text-sm">Login successful</span>
               </div>
-              <p className="text-lg font-bold text-gray-900">{metric.value}</p>
-              <p className="text-xs text-gray-600">{metric.label}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Chart Area */}
-        <div className="bg-gray-50 rounded-lg p-4 h-24 flex items-center justify-center relative overflow-hidden mb-4">
-          <div className="absolute inset-0 flex items-end justify-around p-4">
-            {[65, 45, 80, 60, 95, 70, 85].map((height, idx) => (
-              <motion.div
-                key={idx}
-                className="bg-blue-500 rounded-t-sm opacity-60"
-                style={{ width: '8px' }}
-                initial={{ height: 0 }}
-                animate={{ height: `${height}%` }}
-                transition={{ delay: idx * 0.1 + 0.5, duration: 0.5 }}
-              />
-            ))}
+              <div className="flex items-center space-x-4">
+                <select className="bg-slate-700 text-white text-sm px-3 py-1 rounded border border-slate-600 focus:border-blue-500 outline-none">
+                  <option>Last 7 days</option>
+                  <option>Last 30 days</option>
+                  <option>Last 90 days</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 text-slate-400 text-sm">
+                <Calendar className="w-4 h-4" />
+                <span>07/31/2025</span>
+                <Clock className="w-4 h-4 ml-2" />
+                <span>10:49:53 PM</span>
+              </div>
+              <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">NB</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-2 gap-3">
-          <motion.button
-            className="flex items-center justify-center space-x-2 p-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Calendar className="w-4 h-4" />
-            <span>Schedule</span>
-          </motion.button>
-          <motion.button
-            className="flex items-center justify-center space-x-2 p-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <BarChart3 className="w-4 h-4" />
-            <span>Reports</span>
-          </motion.button>
+        {/* Page Content */}
+        <div className="flex-1 p-6 overflow-y-auto">
+          {selectedPage === 'dashboard' && (
+            <div className="space-y-6">
+              {/* Main Metrics */}
+              <div className="grid grid-cols-4 gap-4">
+                {[
+                  { label: 'Monthly Recurring Revenue', value: '$847,250', change: '+18.2%', icon: DollarSign, color: 'text-green-400' },
+                  { label: 'Active Gym Partners', value: '1,247', change: '+24', icon: Building, color: 'text-orange-400' },
+                  { label: 'Total Gym Members', value: '186,492', change: '+12.8%', icon: Users, color: 'text-red-400' },
+                  { label: 'Platform Uptime', value: '99.97%', change: '+0.05%', icon: Zap, color: 'text-purple-400' }
+                ].map((metric, idx) => (
+                  <motion.div
+                    key={idx}
+                    className="bg-slate-800 rounded-xl p-4 border border-slate-700"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${idx === 0 ? 'bg-red-500/20' :
+                        idx === 1 ? 'bg-orange-500/20' :
+                          idx === 2 ? 'bg-red-500/20' : 'bg-purple-500/20'
+                        }`}>
+                        <metric.icon className={`w-5 h-5 ${metric.color}`} />
+                      </div>
+                      <span className="text-green-400 text-sm font-medium">{metric.change}</span>
+                    </div>
+                    <p className="text-2xl font-bold text-white mb-1">{metric.value}</p>
+                    <p className="text-slate-400 text-sm">{metric.label}</p>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Two Column Layout */}
+              <div className="grid grid-cols-2 gap-6">
+                {/* Top Performing Gyms */}
+                <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-white font-semibold">Top Performing Gym Chains</h3>
+                    <button className="text-red-400 text-sm hover:text-red-300">View All</button>
+                  </div>
+                  <div className="space-y-3">
+                    {topPerformingGyms.map((gym, idx) => (
+                      <motion.div
+                        key={idx}
+                        className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-all"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.2 + idx * 0.1 }}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center text-lg">
+                            {gym.logo}
+                          </div>
+                          <div>
+                            <p className="text-white font-medium text-sm">{gym.name}</p>
+                            <div className="flex items-center space-x-4 text-xs text-slate-400">
+                              <span>📍 {gym.locations} locations</span>
+                              <span>👥 {gym.members} members</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-white font-semibold">{gym.revenue}</p>
+                          <div className="flex items-center space-x-2">
+                            <span className={`text-xs px-2 py-1 rounded ${gym.growth.startsWith('+') ? 'text-green-400 bg-green-500/10' : 'text-red-400 bg-red-500/10'
+                              }`}>
+                              {gym.growth}
+                            </span>
+                            <span className={`text-xs px-2 py-1 rounded ${gym.plan === 'Enterprise' ? 'text-yellow-400 bg-yellow-500/10' :
+                              gym.plan === 'Professional' ? 'text-blue-400 bg-blue-500/10' :
+                                'text-gray-400 bg-gray-500/10'
+                              }`}>
+                              {gym.plan}
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* System Health */}
+                <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-white font-semibold">System Health</h3>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span className="text-green-400 text-sm">Operational</span>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    {systemHealthMetrics.map((metric, idx) => (
+                      <motion.div
+                        key={idx}
+                        className="flex items-center justify-between"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3 + idx * 0.1 }}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-2 h-2 rounded-full ${metric.status === 'operational' ? 'bg-green-400' :
+                            metric.status === 'degraded' ? 'bg-yellow-400' :
+                              'bg-blue-400'
+                            }`}></div>
+                          <span className="text-white text-sm">{metric.name}</span>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-white text-sm font-medium">{metric.uptime}</span>
+                          <p className="text-xs text-slate-400 capitalize">{metric.status}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-slate-700">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-green-400">99.2%</p>
+                      <p className="text-slate-400 text-sm">Overall Health</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
