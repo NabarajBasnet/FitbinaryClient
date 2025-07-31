@@ -180,7 +180,7 @@ const ClientAreaSidebar = ({ activeTab }) => {
     <div className={`
       bg-white/95 dark:bg-gray-900/95 
       ${clientSidebar ? 'w-[235px]' : 'w-[75px]'} 
-      min-h-screen py-2 shadow-lg border-r border-gray-200/50 dark:border-gray-800/50 
+      min-h-screen py-0 shadow-lg border-r border-gray-200/50 dark:border-gray-800/50 
       fixed left-0 top-0 z-50 flex flex-col transition-all duration-300 ease-in-out
       backdrop-blur-sm
     `}>
