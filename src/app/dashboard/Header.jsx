@@ -967,7 +967,7 @@ const Header = () => {
                     <DropdownMenuSeparator />
 
                     {/* Footer always visible */}
-                    <DropdownMenuItem className="justify-center cursor-pointer text-indigo-600 dark:text-indigo-400 hover:underline">
+                    <DropdownMenuItem onClick={() => window.location.href = '/dashboard/notifications'} className="justify-center cursor-pointer text-indigo-600 dark:text-indigo-400 hover:underline">
                       View all notifications
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -1124,7 +1124,7 @@ const Header = () => {
             <DropdownMenuSeparator />
 
             {/* Footer always visible */}
-            <DropdownMenuItem className="justify-center cursor-pointer text-indigo-600 dark:text-indigo-400 hover:underline">
+            <DropdownMenuItem onClick={() => window.location.href = '/dashboard/notifications'} className="justify-center cursor-pointer text-indigo-600 dark:text-indigo-400 hover:underline">
               View all notifications
             </DropdownMenuItem>
           </DropdownMenuContent>

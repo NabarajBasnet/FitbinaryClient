@@ -43,14 +43,14 @@ export function NewMembersLineChart() {
     });
 
     // Create complete year data with actual values or zeros
-    const monthNames = ["January", "February", "March", "April", "May", "June", 
-                      "July", "August", "September", "October", "November", "December"];
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
 
     const chartData = monthNames.map(month => {
-        const monthData = Array.isArray(newMembers) 
+        const monthData = Array.isArray(newMembers)
             ? newMembers.find(item => item?.month === month)
             : null;
-            
+
         return {
             month,
             newadmission: monthData?.value || 0
@@ -61,7 +61,7 @@ export function NewMembersLineChart() {
     const currentMonthIndex = new Date().getMonth();
     const currentMonthData = chartData[currentMonthIndex]?.newadmission || 0;
     const prevMonthData = chartData[currentMonthIndex - 1]?.newadmission || 0;
-    const increasePercentage = prevMonthData > 0 
+    const increasePercentage = prevMonthData > 0
         ? (((currentMonthData - prevMonthData) / prevMonthData) * 100).toFixed(1)
         : "0.0";
 

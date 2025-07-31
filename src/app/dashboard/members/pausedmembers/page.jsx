@@ -529,7 +529,7 @@ const PausedMembers = () => {
                                                             </div>
                                                         </TableCell>
                                                         <TableCell>{member.fullName}</TableCell>
-                                                        <TableCell className='text-start'>{member.membershipDuration}</TableCell>
+                                                        <TableCell className='text-start'>{member?.membership?.duration / 30} Months</TableCell>
                                                         <TableCell className='text-start'>
                                                             {member?.membershipOption ||
                                                                 member?.membership?.servicesIncluded?.map(
