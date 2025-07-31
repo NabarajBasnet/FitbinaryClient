@@ -200,7 +200,7 @@ const AdminDashboard = () => {
       id: 'renewals',
       icon: MdAutorenew,
       text: "Renewals",
-      value: `${numbersLoading ? '...' : renewedMembers?.members?.length || 0}`,
+      value: `${numbersLoading ? '...' : renewedMembers?.total || 0}`,
       percentage: -1.5,
       trend: "down",
       color: 'text-green-600',
@@ -212,7 +212,7 @@ const AdminDashboard = () => {
       id: 'new-admissions',
       icon: RiUserShared2Fill,
       text: "New Admissions",
-      value: `${numbersLoading ? '...' : newMembers?.members?.length || 0}`,
+      value: `${numbersLoading ? '...' : newMembers?.total || 0}`,
       percentage: newMembersGrowthPercentage ? newMembersGrowthPercentage : 0,
       trend: newMembersGrowthPercentage > 0 ? "up" : "down",
       color: 'text-yellow-600',
@@ -345,7 +345,7 @@ const AdminDashboard = () => {
                         <p className="text-sm font-medium text-gray-700 dark:text-gray-300">New Members</p>
                       </div>
                       <p className="text-2xl font-semibold text-gray-900 dark:text-white">
-                        {newMembers?.members?.length || 0}
+                        {newMembers?.total || 0}
                       </p>
                     </div>
                     <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
@@ -363,7 +363,7 @@ const AdminDashboard = () => {
                         <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Renewed Members</p>
                       </div>
                       <p className="text-2xl font-semibold text-gray-900 dark:text-white">
-                        {renewedMembers?.members?.length || 0}
+                        {renewedMembers?.total || 0}
                       </p>
                     </div>
                     <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">

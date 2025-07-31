@@ -11,7 +11,6 @@ import {
 import { toast as notify } from 'react-hot-toast';
 import React from 'react';
 import Pagination from "../ui/CustomPagination";
-import { useRouter } from "next/navigation";
 import {
     Table,
     TableBody,
@@ -21,33 +20,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { TrendingUp } from "lucide-react";
-import {
-    PolarGrid,
-    PolarRadiusAxis,
-    RadialBar,
-    RadialBarChart,
-    ResponsiveContainer,
-} from "recharts";
 import { useState } from "react";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-
-const chartData = [
-    { name: "Target", value: 200, fill: "#db2777" },
-    { name: "Completed", value: 75, fill: "#FF69B4" },
-];
 
 export function NewRadialChart({ startDate, endDate }) {
-    const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
-    const limit = 5;
+    const limit = 10;
 
     // Get New Members
     const getNewMembers = async ({ queryKey }) => {
@@ -96,63 +73,6 @@ export function NewRadialChart({ startDate, endDate }) {
 
     return (
         <div className="w-full border-none dark:border-none dark:bg-gray-800 rounded-2xl">
-            {/* <Card className="flex flex-col border-none shadow-sm dark:border-gray-600 dark:bg-gray-800 rounded-2xl">
-                <CardHeader className="items-center pb-0">
-                    <CardTitle className='text-pink-600'>Target New Admissions</CardTitle>
-                    <CardDescription className='text-xs font-medium'>
-                        {startDate.toLocaleString('default', { month: 'long' })} - {new Date().toLocaleString('default', { month: 'long' })}
-                    </CardDescription>
-                </CardHeader>
-
-                <CardContent className="flex pb-0">
-                    <div className="w-full h-[300px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <RadialBarChart
-                                data={chartData}
-                                startAngle={180}
-                                endAngle={-180}
-                                innerRadius="50%"
-                                outerRadius="90%"
-                            >
-                                <PolarGrid
-                                    gridType="circle"
-                                    radialLines={false}
-                                />
-                                <PolarRadiusAxis
-                                    angle={30}
-                                    domain={[0, 200]}
-                                    tick={false}
-                                    axisLine={false}
-                                />
-                                <RadialBar
-                                    dataKey="value"
-                                    cornerRadius={10}
-                                    background
-                                    animationDuration={1500}
-                                />
-                                <text
-                                    x="50%"
-                                    y="50%"
-                                    textAnchor="middle"
-                                    dominantBaseline="middle"
-                                    className="text-lg font-bold fill-pink-600"
-                                >
-                                    {chartData[1].value} / {chartData[0].value}
-                                </text>
-                            </RadialBarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </CardContent>
-
-                <CardFooter className="flex-col gap-2 text-sm">
-                    <div className="flex items-center gap-2 font-medium text-pink-600 leading-none">
-                        New admission target reached {completionPercentage}% this month <TrendingUp className="h-4 w-4" />
-                    </div>
-                    <div className="leading-none text-muted-foreground">
-                        Showing target progress for {startDate.toLocaleString('default', { month: 'long' })}
-                    </div>
-                </CardFooter>
-            </Card> */}
 
             <div className="bg-white flex flex-col justify-between dark:bg-gray-800 rounded-2xl mt-6 min-h-[250px]">
                 <div className="overflow-x-auto">
@@ -226,7 +146,7 @@ export function NewRadialChart({ startDate, endDate }) {
                             <TableRow>
                                 <TableCell colSpan={5} className="text-left text-xs font-medium">Total New Members</TableCell>
                                 <TableCell className="text-right text-xs font-medium">
-                                    {newMembers?.members?.length || 0}
+                                    {newMembers?.total || 0}
                                 </TableCell>
                             </TableRow>
                         </TableFooter>
@@ -238,9 +158,6 @@ export function NewRadialChart({ startDate, endDate }) {
                         total={totalPages || 0}
                         page={currentPage || 1}
                         onChange={setCurrentPage}
-                        withEdges={true}
-                        siblings={1}
-                        boundaries={1}
                     />
                 </div>
             </div>

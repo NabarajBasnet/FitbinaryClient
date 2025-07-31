@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/tooltip";
 import { useState } from "react";
 import Pagination from "../ui/CustomPagination";
-import { useRouter } from "next/navigation";
 import {
     Table,
     TableBody,
@@ -21,32 +20,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { TrendingUp } from "lucide-react";
-import {
-    PolarGrid,
-    PolarRadiusAxis,
-    RadialBar,
-    RadialBarChart,
-    ResponsiveContainer,
-} from "recharts";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-
-const chartData = [
-    { name: "Target", value: 200, fill: "#10b981" },
-    { name: "Completed", value: 150, fill: "#77d496" },
-];
 
 export function RenewRadialChart({ startDate, endDate }) {
-    const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
-    const limit = 5;
+    const limit = 10;
 
     const getRenewedMembers = async ({ queryKey }) => {
         const [, startDate, endDate, page, limit] = queryKey;
@@ -67,17 +44,7 @@ export function RenewRadialChart({ startDate, endDate }) {
         queryFn: getRenewedMembers
     });
 
-    const { totalPages } = renewedMembers || {}
-
-    // Calculate completion percentage for the chart
-    const completionPercentage = Math.round((chartData[1].value / chartData[0].value) * 100);
-
-    // Pagination logic
-    const totalMembers = renewedMembers.members?.length || 0;
-    const paginatedMembers = renewedMembers.members?.slice(
-        (currentPage - 1) * limit,
-        currentPage * limit
-    ) || [];
+    const { totalPages, members } = renewedMembers || {}
 
     const copyToClipboard = (_id) => {
         if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
@@ -107,62 +74,6 @@ export function RenewRadialChart({ startDate, endDate }) {
 
     return (
         <div className="w-full border-none dark:border-none dark:bg-gray-800 rounded-2xl">
-            {/* <Card className="flex flex-col dark:border-gray-600 dark:bg-gray-800 border-none rounded-2xl">
-                <CardHeader className="items-center pb-0">
-                    <CardTitle className='text-emerald-600'>Target Renews</CardTitle>
-                    <CardDescription className='text-xs font-medium'>
-                        {startDate.toLocaleString('default', { month: 'long' })} - {endDate.toLocaleString('default', { month: 'long' })}
-                    </CardDescription>
-                </CardHeader>
-
-                <CardContent className="flex pb-0">
-                    <div className="w-full h-[300px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <RadialBarChart
-                                data={chartData}
-                                startAngle={180}
-                                endAngle={-180}
-                                innerRadius="50%"
-                                outerRadius="90%"
-                            >
-                                <PolarGrid
-                                    gridType="circle"
-                                    radialLines={false}
-                                />
-                                <PolarRadiusAxis
-                                    angle={30}
-                                    domain={[0, 200]}
-                                    tick={false}
-                                    axisLine={false}
-                                />
-                                <RadialBar
-                                    dataKey="value"
-                                    cornerRadius={10}
-                                    background
-                                    animationDuration={1500}
-                                />
-                                <text
-                                    x="50%"
-                                    y="50%"
-                                    textAnchor="middle"
-                                    dominantBaseline="middle"
-                                    className="text-lg font-bold fill-emerald-600"
-                                >
-                                    {chartData[1].value} / {chartData[0].value}
-                                </text>
-                            </RadialBarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </CardContent>
-                <CardFooter className="flex-col gap-2 text-sm">
-                    <div className="flex items-center gap-2 font-medium text-emerald-600 dark:text-gray-300 leading-none">
-                        Renewal target reached {completionPercentage}% this period <TrendingUp className="h-4 w-4 dark:text-white" />
-                    </div>
-                    <div className="leading-none text-muted-foreground dark:text-gray-400">
-                        Showing target progress from {new Date(startDate).toLocaleDateString()} to {new Date(endDate).toLocaleDateString()}
-                    </div>
-                </CardFooter>
-            </Card> */}
 
             <div className="bg-white flex flex-col justify-between dark:bg-gray-800 rounded-2xl mt-6 min-h-[250px]">
                 <Table className='min-w-full dark:border-gray-600 dark:bg-gray-800 rounded-2xl'>
@@ -183,8 +94,8 @@ export function RenewRadialChart({ startDate, endDate }) {
                                     Loading members...
                                 </TableCell>
                             </TableRow>
-                        ) : paginatedMembers.length > 0 ? (
-                            paginatedMembers.map(({ member }, index) => {
+                        ) : members?.length > 0 ? (
+                            members?.map(({ member }, index) => {
                                 const textColor =
                                     member.status === 'Active' ? 'text-black dark:text-white' :
                                         member.status === 'OnHold' ? 'text-yellow-600 dark:text-yellow-500' :
@@ -237,7 +148,7 @@ export function RenewRadialChart({ startDate, endDate }) {
                                 Total Renewed Members
                             </TableCell>
                             <TableCell className="text-right text-xs font-medium">
-                                {renewedMembers?.members?.length}
+                                {renewedMembers?.total || 0}
                             </TableCell>
                         </TableRow>
                     </TableFooter>
@@ -247,10 +158,6 @@ export function RenewRadialChart({ startDate, endDate }) {
                         total={totalPages || 0}
                         page={currentPage}
                         onChange={setCurrentPage}
-                        withEdges={true}
-                        siblings={1}
-                        boundaries={1}
-                        limit={limit}
                     />
                 </div>
             </div>
