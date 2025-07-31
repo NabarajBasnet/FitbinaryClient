@@ -72,7 +72,7 @@ const UserDashboard = () => {
   return (
     <div className="bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden h-[500px] flex">
       {/* Sidebar */}
-      <div className="w-44 bg-slate-800 border-r border-slate-700 flex flex-col">
+      <div className="w-44 hidden md:flex bg-slate-800 border-r border-slate-700 flex flex-col">
         {/* Logo Area */}
         <div className="p-3.5 border-b border-slate-700">
           <div className="flex items-center space-x-3">
@@ -274,7 +274,7 @@ const TenantDashboard = () => {
               <span className="text-white font-semibold">Fitbinary</span>
             </div>
             <span className="text-gray-400">|</span>
-            <span className="text-gray-300">All-in-One Gym Management</span>
+            <span className="text-gray-300 hidden md:flex">All-in-One Gym Management</span>
           </div>
           <div className="flex items-center space-x-4">
             <button className="text-gray-400 hover:text-white">
@@ -295,7 +295,7 @@ const TenantDashboard = () => {
 
       <div className="flex">
         {/* Left Sidebar */}
-        <div className="w-64 bg-gray-800 min-h-screen border-r border-gray-700 rounded-b-2xl">
+        <div className="w-64 hidden md:flex bg-gray-800 min-h-screen border-r border-gray-700 rounded-b-2xl">
           <div className="p-4">
             <div className="mb-6">
               <div className="flex items-center space-x-3 mb-4">

@@ -30,7 +30,7 @@ export function NewRadialChart({ startDate, endDate }) {
     const getNewMembers = async ({ queryKey }) => {
         const [, startDate, endDate, page, limit] = queryKey;
         try {
-            const response = await fetch(`https://fitbinary.com/api/memberanalytics/newmembers?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}`);
+            const response = await fetch(`http://localhost:3000/api/memberanalytics/newmembers?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}`);
             const responseBody = await response.json();
             return responseBody;
         } catch (error) {
@@ -83,6 +83,7 @@ export function NewRadialChart({ startDate, endDate }) {
                                 <TableHead className='text-pink-600 text-xs font-medium'>Full Name</TableHead>
                                 <TableHead className='text-pink-600 text-xs font-medium'>Duration</TableHead>
                                 <TableHead className='text-pink-600 text-xs font-medium'>Renew</TableHead>
+                                <TableHead className='text-pink-600 text-xs font-medium'>Expire</TableHead>
                                 <TableHead className='text-pink-600 text-xs font-medium'>Contact No</TableHead>
                                 <TableHead className='text-pink-600 text-xs font-medium'>Status</TableHead>
                             </TableRow>
@@ -123,9 +124,12 @@ export function NewRadialChart({ startDate, endDate }) {
                                                 </div>
                                             </TableCell>
                                             <TableCell className='text-xs font-medium'>{member?.fullName || 'N/A'}</TableCell>
-                                            <TableCell className='text-xs font-medium'>{member?.membershipDuration || 'N/A'}</TableCell>
+                                            <TableCell className='text-xs font-medium'>{member?.membership.duration / 30 || 'N/A'} Months</TableCell>
                                             <TableCell className='text-xs font-medium'>
                                                 {new Date(member?.membershipRenewDate).toLocaleDateString()}
+                                            </TableCell>
+                                            <TableCell className='text-xs font-medium'>
+                                                {new Date(member?.membershipExpireDate).toLocaleDateString()}
                                             </TableCell>
                                             <TableCell className='text-xs font-medium'>{member?.contactNo}</TableCell>
                                             <TableCell className='text-xs font-medium'>

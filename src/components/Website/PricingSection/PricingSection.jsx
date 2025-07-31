@@ -99,7 +99,7 @@ const PricingSection = () => {
                         </span>
                     </div>
 
-                    <h1 className="text-7xl font-bold text-white mb-4">
+                    <h1 className="text-4xl md:text-7xl font-bold text-white mb-4">
                         Unlock Your Gym's <br />
                         <span className="bg-gradient-to-r from-blue-400 via-sky-200 to-white bg-clip-text text-transparent">
                             Full Potential
