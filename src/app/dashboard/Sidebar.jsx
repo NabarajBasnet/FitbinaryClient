@@ -88,7 +88,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:3000', {
+const socket = io('https://fitbinary.com', {
   transports: ['websocket'],
   reconnection: true,
   reconnectionAttempts: Infinity,
@@ -125,7 +125,7 @@ const Sidebar = () => {
   const logoutUser = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/logout`, {
+      const response = await fetch(`https://fitbinary.com/api/auth/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -510,7 +510,7 @@ const Sidebar = () => {
   // get notifications
   const getNotifications = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/user-notification/get`);
+      const response = await fetch(`https://fitbinary.com/api/user-notification/get`);
       const resBody = await response.json();
       return resBody;
     } catch (error) {
@@ -545,7 +545,7 @@ const Sidebar = () => {
 
   const markSingleNotificationAsRead = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/user-notification/single-read/${id}`, {
+      const response = await fetch(`https://fitbinary.com/api/user-notification/single-read/${id}`, {
         method: "PATCH",
       });
       const resBody = await response.json();
@@ -567,7 +567,7 @@ const Sidebar = () => {
         return;
       }
 
-      const response = await fetch(`http://localhost:3000/api/user-notification/bulk-read/`, {
+      const response = await fetch(`https://fitbinary.com/api/user-notification/bulk-read/`, {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json'
@@ -599,7 +599,7 @@ const Sidebar = () => {
         ) : (
           <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 px-4 py-3.5">
             <Link href={"/dashboard"} className="flex items-center">
-              <div className="relative flex items-center justify-center w-12 h-11 rounded-xl overflow-hidden bg-gradient-to-br from-indigo-600 via-blue-600 to-blue-500 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/20">
+              <div className="relative flex items-center justify-center w-11 h-11 rounded-xl overflow-hidden bg-gradient-to-br from-sky-600 via-blue-600 to-sky-400 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/20">
                 <svg
                   width="24"
                   height="24"
@@ -662,7 +662,6 @@ const Sidebar = () => {
             </Link>
           </div>
         )}
-
 
         {/* Sidebar Content */}
         <div className="flex-grow overflow-y-auto px-3 py-5 scrollbar-background-white scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800 scrollbar-track-transparent">

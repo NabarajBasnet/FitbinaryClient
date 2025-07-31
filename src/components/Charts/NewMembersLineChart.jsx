@@ -27,9 +27,8 @@ const chartConfig = {
 export function NewMembersLineChart() {
     const getNewMembers = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/graphdata/newmembers`);
+            const response = await fetch(`https://fitbinary.com/api/graphdata/newmembers`);
             const data = await response.json();
-            // Handle both array response and nested newMembers property
             return Array.isArray(data) ? data : data?.newMembers || [];
         } catch (error) {
             console.error("Error fetching new members:", error);
@@ -42,7 +41,6 @@ export function NewMembersLineChart() {
         queryFn: getNewMembers
     });
 
-    // Create complete year data with actual values or zeros
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"];
 
@@ -57,7 +55,6 @@ export function NewMembersLineChart() {
         };
     });
 
-    // Calculate percentage increase (current month vs previous month)
     const currentMonthIndex = new Date().getMonth();
     const currentMonthData = chartData[currentMonthIndex]?.newadmission || 0;
     const prevMonthData = chartData[currentMonthIndex - 1]?.newadmission || 0;
@@ -65,39 +62,71 @@ export function NewMembersLineChart() {
         ? (((currentMonthData - prevMonthData) / prevMonthData) * 100).toFixed(1)
         : "0.0";
 
+    const date = new Date();
+    const fromStartingMonth = new Date();
+    fromStartingMonth.setMonth(0);
+    fromStartingMonth.setDate(1)
+
     return (
         <div className="w-full border-none">
             <Card className="w-full dark:border-none dark:bg-gray-800 border-none rounded-2xl">
                 <CardHeader>
-                    <CardDescription>January - December 2024</CardDescription>
+                    <CardDescription>{fromStartingMonth.toLocaleString('default', { month: 'long' })} {fromStartingMonth.getDate()} - {new Date().toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit'
+                    })}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="relative">
                     <ChartContainer config={chartConfig}>
                         <LineChart
-                            accessibilityLayer
                             data={chartData}
                             margin={{
-                                left: 12,
-                                right: 12,
+                                top: 20,
+                                right: 20,
+                                left: 20,
+                                bottom: 20,
                             }}
                         >
-                            <CartesianGrid vertical={false} />
+                            {/* Grid lines - positioned behind everything */}
+                            <CartesianGrid
+                                vertical={false}
+                                strokeDasharray="3 3"
+                                stroke="hsl(var(--border))"
+                                strokeOpacity={0.5}
+                                style={{
+                                    position: 'absolute',
+                                    zIndex: 0,
+                                }}
+                            />
+
+                            {/* XAxis with proper z-index and background */}
                             <XAxis
                                 dataKey="month"
                                 tickLine={false}
-                                axisLine={false}
-                                tickMargin={4}
+                                axisLine={true}
+                                tickMargin={24}
                                 tickFormatter={(value) => value.slice(0, 3)}
+                                style={{
+                                    zIndex: 2,
+                                    fontSize: '12px',
+                                }}
+                                tick={{
+                                    fill: 'hsl(var(--foreground))',
+                                }}
                             />
+
                             <ChartTooltip
                                 cursor={false}
                                 content={<ChartTooltipContent hideLabel />}
                             />
+
+                            {/* Line - positioned above grid but below text */}
                             <Line
                                 dataKey="newadmission"
                                 type="natural"
                                 stroke="#14b8a6"
-                                strokeWidth={1}
+                                strokeWidth={2}
                                 dot={{
                                     fill: "#14b8a6",
                                     strokeWidth: 1,
@@ -108,13 +137,24 @@ export function NewMembersLineChart() {
                                     stroke: "#14b8a6",
                                     strokeWidth: 2,
                                 }}
+                                style={{
+                                    zIndex: 1,
+                                }}
                             />
                         </LineChart>
                     </ChartContainer>
                 </CardContent>
                 <CardFooter className="flex-col items-start gap-2 text-sm">
                     <div className="flex gap-2 font-medium leading-none text-green-600 dark:text-green-400">
-                        Increasing new admission by {increasePercentage}% this month <TrendingUp className="h-4 w-4" />
+                        {parseFloat(increasePercentage) >= 0 ? (
+                            <>
+                                Increasing new admission by {increasePercentage}% this month <TrendingUp className="h-4 w-4" />
+                            </>
+                        ) : (
+                            <>
+                                Decreasing new admission by {Math.abs(parseFloat(increasePercentage))}% this month
+                            </>
+                        )}
                     </div>
                     <div className="leading-none text-muted-foreground dark:text-gray-400">
                         Showing total new admission for the last 12 months
