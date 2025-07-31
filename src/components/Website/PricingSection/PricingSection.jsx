@@ -57,7 +57,7 @@ const PricingSection = () => {
     const planData = useMemo(() => [
         { icon: Zap, accent: "blue" },
         { icon: Crown, accent: "purple" },
-        { icon: Sparkles, accent: "orange" }
+        { icon: Sparkles, accent: "red" }
     ], []);
 
     const faqs = useMemo(() => [
@@ -166,7 +166,7 @@ const PricingSection = () => {
                                                 onClick={() => window.location.href = '/login'}
                                                 disabled={loadingButtons[plan._id]}
                                                 className={`w-full py-3 px-4 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 
-                                                    ${isPopular ? `bg-${accent}-500 text-white hover:bg-${accent}-600` : "bg-gray-800 hover:bg-gray-700 text-white"}
+                                                    ${isPopular ? `bg-${'sky'}-500 text-white hover:bg-${accent}-600` : "bg-gray-800 hover:bg-gray-700 text-white"}
                                                     ${loadingButtons[plan._id] ? "opacity-75 cursor-not-allowed" : ""}`}
                                             >
                                                 {loadingButtons[plan._id] ? (

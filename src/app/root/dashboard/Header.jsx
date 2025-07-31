@@ -1,6 +1,10 @@
 "use client";
 
 // Icons
+import { BiBuildings } from "react-icons/bi";
+import { FaUsersCog } from "react-icons/fa";
+import { FaUsersLine } from "react-icons/fa6";
+import { FaUsers } from "react-icons/fa";
 import { MdContactPhone } from "react-icons/md";
 import { FiShoppingCart } from "react-icons/fi";
 import { MdOutlineShoppingCart } from "react-icons/md";
@@ -125,6 +129,30 @@ const RootUserHeader = ({ activeTab }) => {
       label: "System Settings",
       description: "Platform Configuration",
     },
+    {
+      id: "/root/dashboard/members",
+      icon: <FaUsers size={20} />,
+      label: "Tenant's Members",
+      description: "Tenant's Members",
+    },
+    {
+      id: "/root/dashboard/staffs",
+      icon: <FaUsersLine size={20} />,
+      label: "Tenant's Staffs",
+      description: "Tenant's Staffs",
+    },
+    {
+      id: "/root/dashboard/users",
+      icon: <FaUsersCog size={20} />,
+      label: "Tenant's Users",
+      description: "Tenant's Users",
+    },
+    {
+      id: "/root/dashboard/branches",
+      icon: <BiBuildings size={20} />,
+      label: "Tenant's Branches",
+      description: "Tenant's Branches",
+    },
   ];
 
   const adminQuickActions = [
@@ -152,6 +180,31 @@ const RootUserHeader = ({ activeTab }) => {
       label: "Database",
       color: "text-purple-600",
       link: "/systemalerts",
+    },
+    ,
+    {
+      id: "/root/dashboard/members",
+      icon: <Settings size={20} />,
+      label: "Tenant's Members",
+      description: "Tenant's Members",
+    },
+    {
+      id: "/root/dashboard/staffs",
+      icon: <Settings size={20} />,
+      label: "Tenant's Staffs",
+      description: "Tenant's Staffs",
+    },
+    {
+      id: "/root/dashboard/users",
+      icon: <Settings size={20} />,
+      label: "Tenant's Users",
+      description: "Tenant's Users",
+    },
+    {
+      id: "/root/dashboard/branches",
+      icon: <Settings size={20} />,
+      label: "Tenant's Branches",
+      description: "Tenant's Branches",
     },
   ];
 
@@ -591,7 +644,7 @@ const RootUserHeader = ({ activeTab }) => {
                 <DropdownMenuSeparator />
 
                 {/* Footer always visible */}
-                <DropdownMenuItem onClick={()=>window.location.href='/root/dashboard/notifications'} className="justify-center cursor-pointer text-indigo-600 dark:text-indigo-400 hover:underline">
+                <DropdownMenuItem onClick={() => window.location.href = '/root/dashboard/notifications'} className="justify-center cursor-pointer text-indigo-600 dark:text-indigo-400 hover:underline">
                   View all notifications
                 </DropdownMenuItem>
               </DropdownMenuContent>

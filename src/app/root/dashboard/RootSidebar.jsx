@@ -1,5 +1,9 @@
 "use client";
 
+import { BiBuildings } from "react-icons/bi";
+import { FaUsersCog } from "react-icons/fa";
+import { FaUsersLine } from "react-icons/fa6";
+import { FaUsers } from "react-icons/fa";
 import { MdContactPhone } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { useRootUser } from "@/components/Providers/LoggedInRootUserProvider";
@@ -72,6 +76,30 @@ const RootSidebar = ({ activeTab }) => {
             icon: <Settings size={20} />,
             label: "System Settings",
             description: "Platform Configuration",
+        },
+        {
+            id: "/root/dashboard/members",
+            icon: <FaUsers size={20} />,
+            label: "Tenant's Members",
+            description: "Tenant's Members",
+        },
+        {
+            id: "/root/dashboard/staffs",
+            icon: <FaUsersLine size={20} />,
+            label: "Tenant's Staffs",
+            description: "Tenant's Staffs",
+        },
+        {
+            id: "/root/dashboard/users",
+            icon: <FaUsersCog size={20} />,
+            label: "Tenant's Users",
+            description: "Tenant's Users",
+        },
+        {
+            id: "/root/dashboard/branches",
+            icon: <BiBuildings size={20} />,
+            label: "Tenant's Branches",
+            description: "Tenant's Branches",
         },
     ];
 
