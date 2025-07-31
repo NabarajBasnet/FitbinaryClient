@@ -118,7 +118,7 @@ export default function AllUserNotifications() {
     const unreadCount = notifications.filter(n => n.status !== 'Read').length;
 
     return (
-        <div className="w-full mx-auto md:py-6">
+        <div className="w-full mx-auto md:pt-6">
             {/* Header with notification badge */}
             <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 py-5">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

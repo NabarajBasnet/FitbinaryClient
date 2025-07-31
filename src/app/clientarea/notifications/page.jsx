@@ -12,8 +12,6 @@ import {
     Mail,
     Phone,
     Clock,
-    Search,
-    Filter,
     ChevronDown,
     Check,
     X,
@@ -44,7 +42,7 @@ export default function AllUserNotifications() {
         queryFn: getAllNotifications
     });
 
-    const { notifications } = data || {};
+    const { tenantnotifications: notifications } = data || {};
 
     const toggleNotificationSelection = (id) => {
         const newSelected = new Set(selectedNotifications);
@@ -74,7 +72,7 @@ export default function AllUserNotifications() {
 
     if (!notifications || notifications.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center h-64 text-gray-500 dark:text-gray-400">
+            <div className="flex flex-col items-center dark:bg-gray-900 min-h-screen justify-center h-64 text-gray-500 dark:text-gray-400">
                 <div className="p-4 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
                     <BellIcon className="w-8 h-8" />
                 </div>
@@ -118,7 +116,7 @@ export default function AllUserNotifications() {
     const unreadCount = notifications.filter(n => n.status !== 'Read').length;
 
     return (
-        <div className="w-full mx-auto md:py-6">
+        <div className="w-full mx-auto">
             {/* Header with notification badge */}
             <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 py-5">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
