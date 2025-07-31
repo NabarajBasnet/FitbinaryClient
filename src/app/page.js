@@ -38,7 +38,10 @@ import {
   Server,
   Building,
   FileText,
-  PieChart
+  PieChart,
+  Mail,
+  Lock,
+  Globe
 } from "lucide-react";
 import FeaturesSection from "@/components/Website/FeaturesSection/FeaturesSection";
 import TrustedBySection from "@/components/Website/TrustedBySection/TrustedBySection";
@@ -51,6 +54,8 @@ import ContactSection from "@/components/Website/ContactSection/ContactSection";
 import BackToTop from "@/components/Website/BackToTop/BackToTop";
 import CookieConsent from "@/components/Website/CookiesConsent/CookiesConsent";
 import ClientTestimonals from "@/components/Website/Testimonal/Testimonal";
+
+
 
 // Enhanced User Dashboard Component
 const UserDashboard = () => {
@@ -69,7 +74,7 @@ const UserDashboard = () => {
       {/* Sidebar */}
       <div className="w-44 bg-slate-800 border-r border-slate-700 flex flex-col">
         {/* Logo Area */}
-        <div className="px-3 py-8 border-b border-slate-700">
+        <div className="p-3.5 border-b border-slate-700">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">FB</span>
@@ -255,265 +260,333 @@ const UserDashboard = () => {
   );
 };
 
-// Enhanced Admin Dashboard Component
 const TenantDashboard = () => {
-  const [selectedPage, setSelectedPage] = useState('dashboard');
-
-  const sidebarItems = [
-    { id: 'dashboard', label: 'Admin Dashboard', icon: Home, subtitle: 'System Overview & Analytics' },
-    { id: 'tenants', label: 'Tenant Management', icon: Building, subtitle: 'Organizations & Clients' },
-    { id: 'orders', label: 'Order Management', icon: FileText, subtitle: 'Order Management' },
-    { id: 'subscriptions', label: 'Subscription Management', icon: CreditCard, subtitle: 'Plans & Billing Control' },
-    { id: 'demos', label: 'Demo Management', icon: PieChart, subtitle: 'Handle Demos' },
-    { id: 'contacts', label: 'Contact Management', icon: Users, subtitle: 'Handle Contacts' }
-  ];
-
-  const systemAlerts = [
-    { type: 'error', count: 2 }
-  ];
-
-  const topPerformingGyms = [
-    { name: 'FitLife Premium', locations: 12, members: '2,847', revenue: '$128,500', growth: '+12.5%', plan: 'Enterprise', logo: '🏃' },
-    { name: 'PowerHouse Gyms', locations: 8, members: '1,923', revenue: '$89,200', growth: '+8.3%', plan: 'Professional', logo: '💪' },
-    { name: 'Elite Fitness', locations: 15, members: '3,421', revenue: '$156,800', growth: '-2.1%', plan: 'Enterprise', logo: '⚡' },
-    { name: 'Community Wellness', locations: 5, members: '892', revenue: '$42,100', growth: '+15.7%', plan: 'Basic', logo: '⭐' }
-  ];
-
-  const systemHealthMetrics = [
-    { name: 'API Gateway', status: 'operational', uptime: '99.98%' },
-    { name: 'Database Cluster', status: 'operational', uptime: '99.95%' },
-    { name: 'Payment Processing', status: 'operational', uptime: '99.99%' },
-    { name: 'CDN & Assets', status: 'degraded', uptime: '98.12%' },
-    { name: 'Analytics Engine', status: 'operational', uptime: '99.87%' },
-    { name: 'Notification Service', status: 'maintenance', uptime: '95.23%' }
-  ];
-
   return (
-    <div className="bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden h-[500px] flex">
-      {/* Sidebar */}
-      <div className="w-80 bg-slate-800 border-r border-slate-700 flex flex-col">
-        {/* Logo Area */}
-        <div className="p-6 border-b border-slate-700">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">NB</span>
+    <div className="bg-gray-900 min-h-screen text-white rounded-2xl">
+      {/* Top Navigation Bar */}
+      <div className="bg-gray-800 border-b border-gray-700 rounded-t-2xl">
+        <div className="flex items-center justify-between px-6 py-3">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                <span className="text-white font-bold text-sm">F</span>
+              </div>
+              <span className="text-white font-semibold">Fitbinary</span>
             </div>
-            <div>
-              <h3 className="text-white font-semibold">Nabaraj Basnet</h3>
-              <p className="text-slate-400 text-xs">🔑 Root User</p>
-            </div>
+            <span className="text-gray-400">|</span>
+            <span className="text-gray-300">All-in-One Gym Management</span>
           </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex-1 p-4 overflow-y-auto">
-          <div className="space-y-2">
-            {sidebarItems.map((item) => (
-              <motion.button
-                key={item.id}
-                onClick={() => setSelectedPage(item.id)}
-                className={`w-full text-left px-4 py-3 rounded-lg transition-all ${selectedPage === item.id
-                  ? 'bg-slate-700 text-white border-l-4 border-blue-500'
-                  : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
-                  }`}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-              >
-                <div className="flex items-start space-x-3">
-                  <item.icon className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-sm">{item.label}</p>
-                    <p className="text-xs text-slate-400 mt-0.5">{item.subtitle}</p>
-                  </div>
-                </div>
-              </motion.button>
-            ))}
-          </div>
-
-          {/* System Controls */}
-          <div className="mt-6 pt-6 border-t border-slate-700">
-            <p className="text-slate-500 text-xs uppercase tracking-wide font-medium px-4 mb-3">SYSTEM CONTROLS</p>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between px-4 py-2 text-sm">
-                <div className="flex items-center space-x-2">
-                  <AlertTriangle className="w-4 h-4 text-red-400" />
-                  <span className="text-slate-300">System Alerts</span>
-                </div>
-                <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
+          <div className="flex items-center space-x-4">
+            <button className="text-gray-400 hover:text-white">
+              <Settings size={20} />
+            </button>
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm font-semibold">JD</span>
+              </div>
+              <div className="text-right">
+                <div className="text-sm text-white">John Doe</div>
+                <div className="text-xs text-yellow-400">Account: OnSubscription</div>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Secure Logout */}
-        <div className="p-4 border-t border-slate-700">
-          <button className="w-full flex items-center space-x-3 px-4 py-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-all">
-            <LogOut className="w-4 h-4" />
-            <div className="text-left">
-              <p className="text-sm font-medium">Secure Logout</p>
-              <p className="text-xs text-slate-500">End admin session</p>
-            </div>
-          </button>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center space-x-2 mb-1">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <span className="text-green-400 text-sm">Login successful</span>
+      <div className="flex">
+        {/* Left Sidebar */}
+        <div className="w-64 bg-gray-800 min-h-screen border-r border-gray-700 rounded-b-2xl">
+          <div className="p-4">
+            <div className="mb-6">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center relative">
+                  <span className="text-white font-bold text-lg">JD</span>
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-gray-800"></div>
+                </div>
+                <div>
+                  <div className="text-white font-semibold">John Doe</div>
+                  <div className="text-blue-400 text-sm">Good Evening</div>
+                </div>
               </div>
-              <div className="flex items-center space-x-4">
-                <select className="bg-slate-700 text-white text-sm px-3 py-1 rounded border border-slate-600 focus:border-blue-500 outline-none">
-                  <option>Last 7 days</option>
-                  <option>Last 30 days</option>
-                  <option>Last 90 days</option>
-                </select>
+
+              <div className="text-sm text-gray-400 mb-2">
+                <User size={16} className="inline mr-2" />
+                johndoe@gmail.com
+              </div>
+              <div className="text-sm text-gray-400">
+                <MapPin size={16} className="inline mr-2" />
+                Kathmandu
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-slate-400 text-sm">
-                <Calendar className="w-4 h-4" />
-                <span>07/31/2025</span>
-                <Clock className="w-4 h-4 ml-2" />
-                <span>10:49:53 PM</span>
+
+            <div className="space-y-2">
+              <div className="text-xs text-gray-500 uppercase tracking-wide mb-3">GENERAL</div>
+
+              <div className="bg-gray-700 rounded-lg p-3 border-l-4 border-blue-500">
+                <div className="flex items-center space-x-3">
+                  <Home size={18} className="text-blue-400" />
+                  <div>
+                    <div className="text-white font-medium">Dashboard</div>
+                    <div className="text-xs text-gray-400">Overview & Analytics</div>
+                  </div>
+                </div>
               </div>
-              <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-bold">NB</span>
+
+              <div className="hover:bg-gray-700 rounded-lg p-3 cursor-pointer">
+                <div className="flex items-center space-x-3">
+                  <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                    <span className="text-white text-xs">GD</span>
+                  </div>
+                  <div>
+                    <div className="text-white font-medium">Gym Dashboard</div>
+                    <div className="text-xs text-gray-400">Access Control</div>
+                  </div>
+                </div>
               </div>
+
+              <div className="text-xs text-gray-500 uppercase tracking-wide mb-3 mt-6">MANAGEMENT</div>
+
+              <div className="hover:bg-gray-700 rounded-lg p-3 cursor-pointer">
+                <div className="flex items-center space-x-3">
+                  <MapPin size={18} className="text-gray-400" />
+                  <div>
+                    <div className="text-white font-medium">Branches</div>
+                    <div className="text-xs text-gray-400">Manage Locations</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="hover:bg-gray-700 rounded-lg p-3 cursor-pointer">
+                <div className="flex items-center space-x-3">
+                  <Users size={18} className="text-gray-400" />
+                  <div>
+                    <div className="text-white font-medium">Users</div>
+                    <div className="text-xs text-gray-400">Manage Team</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="hover:bg-gray-700 rounded-lg p-3 cursor-pointer">
+                <div className="flex items-center space-x-3">
+                  <Lock size={18} className="text-gray-400" />
+                  <div>
+                    <div className="text-white font-medium">Lockers</div>
+                    <div className="text-xs text-gray-400">Manage Storage</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="hover:bg-gray-700 rounded-lg p-3 cursor-pointer">
+                <div className="flex items-center space-x-3">
+                  <CreditCard size={18} className="text-gray-400" />
+                  <div>
+                    <div className="text-white font-medium">Plans</div>
+                    <div className="text-xs text-gray-400">Membership Plans</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-xs text-gray-500 uppercase tracking-wide mb-3 mt-6">BILLING</div>
+
+              <div className="hover:bg-gray-700 rounded-lg p-3 cursor-pointer">
+                <div className="flex items-center space-x-3">
+                  <User size={18} className="text-gray-400" />
+                  <div>
+                    <div className="text-white">John</div>
+                    <div className="text-xs text-gray-400">johndoe@gmail.com</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 space-y-2">
+              <div className="flex justify-between bg-gray-700 rounded-lg p-3 text-sm">
+                <span className="text-green-400">Account</span>
+                <span className="text-green-400">OnSubscription</span>
+              </div>
+              <div className="flex justify-between bg-gray-700 rounded-lg p-3 text-sm">
+                <span className="text-blue-400">Subscription</span>
+                <span className="text-blue-400">Active</span>
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <button className="w-full bg-gray-700 hover:bg-gray-600 rounded-lg p-3 flex items-center justify-center space-x-2">
+                <Settings size={16} />
+                <span>Edit Profile</span>
+              </button>
+              <button className="w-full bg-red-600 hover:bg-red-700 rounded-lg p-3 flex items-center justify-center space-x-2">
+                <LogOut size={16} />
+                <span>Sign Out</span>
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Page Content */}
-        <div className="flex-1 p-6 overflow-y-auto">
-          {selectedPage === 'dashboard' && (
-            <div className="space-y-6">
-              {/* Main Metrics */}
-              <div className="grid grid-cols-4 gap-4">
-                {[
-                  { label: 'Monthly Recurring Revenue', value: '$847,250', change: '+18.2%', icon: DollarSign, color: 'text-green-400' },
-                  { label: 'Active Gym Partners', value: '1,247', change: '+24', icon: Building, color: 'text-orange-400' },
-                  { label: 'Total Gym Members', value: '186,492', change: '+12.8%', icon: Users, color: 'text-red-400' },
-                  { label: 'Platform Uptime', value: '99.97%', change: '+0.05%', icon: Zap, color: 'text-purple-400' }
-                ].map((metric, idx) => (
-                  <motion.div
-                    key={idx}
-                    className="bg-slate-800 rounded-xl p-4 border border-slate-700"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${idx === 0 ? 'bg-red-500/20' :
-                        idx === 1 ? 'bg-orange-500/20' :
-                          idx === 2 ? 'bg-red-500/20' : 'bg-purple-500/20'
-                        }`}>
-                        <metric.icon className={`w-5 h-5 ${metric.color}`} />
-                      </div>
-                      <span className="text-green-400 text-sm font-medium">{metric.change}</span>
-                    </div>
-                    <p className="text-2xl font-bold text-white mb-1">{metric.value}</p>
-                    <p className="text-slate-400 text-sm">{metric.label}</p>
-                  </motion.div>
-                ))}
+        {/* Main Content */}
+        <div className="flex-1 p-6">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h1>
+            <div className="text-gray-400 text-sm">
+              <span className="text-blue-400">Portal</span>
+              <span className="mx-2">›</span>
+              <span className="text-blue-400">Client Area</span>
+              <span className="mx-2">›</span>
+              <span className="text-white">Dashboard</span>
+            </div>
+          </div>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <Users size={24} className="text-white" />
+                </div>
+                <div className="text-green-400 text-sm font-medium">+12%</div>
+              </div>
+              <div className="text-3xl font-bold text-white mb-1">20</div>
+              <div className="text-gray-300 font-medium">Staff Members</div>
+              <div className="text-gray-500 text-sm">Active employees</div>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                  <Building size={24} className="text-white" />
+                </div>
+                <div className="text-green-400 text-sm font-medium">+5%</div>
+              </div>
+              <div className="text-3xl font-bold text-white mb-1">5</div>
+              <div className="text-gray-300 font-medium">Branches</div>
+              <div className="text-gray-500 text-sm">Business locations</div>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                  <UserCheck size={24} className="text-white" />
+                </div>
+                <div className="text-green-400 text-sm font-medium">+8%</div>
+              </div>
+              <div className="text-3xl font-bold text-white mb-1">10</div>
+              <div className="text-gray-300 font-medium">System Users</div>
+              <div className="text-gray-500 text-sm">Platform access</div>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center">
+                  <TrendingUp size={24} className="text-white" />
+                </div>
+                <div className="text-green-400 text-sm font-medium">+23%</div>
+              </div>
+              <div className="text-3xl font-bold text-white mb-1">1500</div>
+              <div className="text-gray-300 font-medium">Members</div>
+              <div className="text-gray-500 text-sm">Total members</div>
+            </div>
+          </div>
+
+          {/* Bottom Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Organization Details */}
+            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                  <Building size={20} className="text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-white">Organization Details</h3>
+                  <p className="text-gray-400 text-sm">Your business information</p>
+                </div>
               </div>
 
-              {/* Two Column Layout */}
-              <div className="grid grid-cols-2 gap-6">
-                {/* Top Performing Gyms */}
-                <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-white font-semibold">Top Performing Gym Chains</h3>
-                    <button className="text-red-400 text-sm hover:text-red-300">View All</button>
-                  </div>
-                  <div className="space-y-3">
-                    {topPerformingGyms.map((gym, idx) => (
-                      <motion.div
-                        key={idx}
-                        className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-all"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 + idx * 0.1 }}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center text-lg">
-                            {gym.logo}
-                          </div>
-                          <div>
-                            <p className="text-white font-medium text-sm">{gym.name}</p>
-                            <div className="flex items-center space-x-4 text-xs text-slate-400">
-                              <span>📍 {gym.locations} locations</span>
-                              <span>👥 {gym.members} members</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-white font-semibold">{gym.revenue}</p>
-                          <div className="flex items-center space-x-2">
-                            <span className={`text-xs px-2 py-1 rounded ${gym.growth.startsWith('+') ? 'text-green-400 bg-green-500/10' : 'text-red-400 bg-red-500/10'
-                              }`}>
-                              {gym.growth}
-                            </span>
-                            <span className={`text-xs px-2 py-1 rounded ${gym.plan === 'Enterprise' ? 'text-yellow-400 bg-yellow-500/10' :
-                              gym.plan === 'Professional' ? 'text-blue-400 bg-blue-500/10' :
-                                'text-gray-400 bg-gray-500/10'
-                              }`}>
-                              {gym.plan}
-                            </span>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <Building size={16} className="text-gray-400" />
+                  <div>
+                    <div className="text-gray-400 text-sm">Business Name</div>
+                    <div className="text-white font-medium">Gold Fitness</div>
                   </div>
                 </div>
 
-                {/* System Health */}
-                <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-white font-semibold">System Health</h3>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-green-400 text-sm">Operational</span>
-                    </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                  <div>
+                    <div className="text-gray-400 text-sm">Business Type</div>
+                    <div className="text-white font-medium">Gym</div>
                   </div>
-                  <div className="space-y-3">
-                    {systemHealthMetrics.map((metric, idx) => (
-                      <motion.div
-                        key={idx}
-                        className="flex items-center justify-between"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.3 + idx * 0.1 }}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <div className={`w-2 h-2 rounded-full ${metric.status === 'operational' ? 'bg-green-400' :
-                            metric.status === 'degraded' ? 'bg-yellow-400' :
-                              'bg-blue-400'
-                            }`}></div>
-                          <span className="text-white text-sm">{metric.name}</span>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-white text-sm font-medium">{metric.uptime}</span>
-                          <p className="text-xs text-slate-400 capitalize">{metric.status}</p>
-                        </div>
-                      </motion.div>
-                    ))}
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <Mail size={16} className="text-gray-400" />
+                  <div>
+                    <div className="text-gray-400 text-sm">Business Email</div>
+                    <div className="text-white font-medium">goldfitness@gmail.com</div>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-slate-700">
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-green-400">99.2%</p>
-                      <p className="text-slate-400 text-sm">Overall Health</p>
-                    </div>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <Globe size={16} className="text-gray-400" />
+                  <div>
+                    <div className="text-gray-400 text-sm">Website</div>
+                    <div className="text-white font-medium">https://fitbinarygym.com</div>
                   </div>
                 </div>
               </div>
             </div>
-          )}
+
+            {/* Current Subscription */}
+            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <TrendingUp size={20} className="text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-white">Current Subscription</h3>
+                  <p className="text-gray-400 text-sm">Your active service plan and details</p>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <div className="text-white text-2xl font-bold">Growth</div>
+                    <div className="text-blue-100">Active</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-white text-xl font-bold">NPR 2000 / Mo</div>
+                    <div className="text-blue-100 text-sm">Price</div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <div className="text-blue-100">Start Date</div>
+                    <div className="text-white font-medium">5/7/2025</div>
+                  </div>
+                  <div>
+                    <div className="text-blue-100">End Date</div>
+                    <div className="text-white font-medium">5/7/2026</div>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex items-center space-x-2">
+                  <Calendar size={16} className="text-blue-100" />
+                  <div className="text-white font-medium">380 days left</div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-white font-semibold mb-3">Included Features</h4>
+                <div className="flex flex-wrap gap-2">
+                  <span className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm">QR Code Attendance</span>
+                  <span className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm">Locker Management</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -709,22 +782,11 @@ const HeroSection = () => {
 
             {/* Tenant Dashboard Section */}
             <motion.div
-              className="grid lg:grid-cols-2 gap-12 items-center"
+              className="gap-12"
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.2, duration: 0.8, ease: "easeOut" }}
             >
-              <motion.div
-                className="relative lg:order-1"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1.3, duration: 0.6 }}
-              >
-                <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl blur-xl" />
-                <div className="relative transform hover:scale-105 transition-transform duration-300">
-                  <TenantDashboard />
-                </div>
-              </motion.div>
               <div className="space-y-6 lg:order-2">
                 <div className="inline-flex items-center space-x-2 bg-cyan-500/10 backdrop-blur-sm border border-cyan-500/20 rounded-full px-4 py-2">
                   <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
@@ -759,6 +821,17 @@ const HeroSection = () => {
                   ))}
                 </div>
               </div>
+              <motion.div
+                className="relative lg:order-1"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.3, duration: 0.6 }}
+              >
+                <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl blur-xl" />
+                <div className="relative transform hover:scale-105 transition-transform duration-300 mt-12">
+                  <TenantDashboard />
+                </div>
+              </motion.div>
             </motion.div>
           </motion.div>
 
