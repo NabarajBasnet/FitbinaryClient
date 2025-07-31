@@ -23,11 +23,8 @@ const Footer = () => {
     ];
 
     const products = [
-        { name: "Features", href: "#" },
-        { name: "Solutions", href: "#" },
-        { name: "Integrations", href: "#" },
-        { name: "Enterprise", href: "#" },
-        { name: "Security", href: "#" }
+        { name: "Features", href: "#features" },
+        { name: "Solutions", href: "#features" },
     ];
 
     const resources = [
@@ -39,11 +36,8 @@ const Footer = () => {
     ];
 
     const company = [
-        { name: "About Us", href: "#" },
-        { name: "Careers", href: "#" },
-        { name: "Press", href: "#" },
-        { name: "Partners", href: "#" },
-        { name: "Contact", href: "#" }
+        { name: "About Us", href: "#about" },
+        { name: "Contact", href: "#contact" }
     ];
 
     const legal = [
