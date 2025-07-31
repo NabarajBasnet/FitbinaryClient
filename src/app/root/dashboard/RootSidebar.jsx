@@ -84,19 +84,19 @@ const RootSidebar = ({ activeTab }) => {
             description: "Tenant's Members",
         },
         {
-            id: "/root/dashboard/staffs",
+            id: "/root/dashboard/tenantstaffs",
             icon: <FaUsersLine size={20} />,
             label: "Tenant's Staffs",
             description: "Tenant's Staffs",
         },
         {
-            id: "/root/dashboard/users",
+            id: "/root/dashboard/tenantsusers",
             icon: <FaUsersCog size={20} />,
             label: "Tenant's Users",
             description: "Tenant's Users",
         },
         {
-            id: "/root/dashboard/branches",
+            id: "/root/dashboard/tenantsbranches",
             icon: <BiBuildings size={20} />,
             label: "Tenant's Branches",
             description: "Tenant's Branches",
