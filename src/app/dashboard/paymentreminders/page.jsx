@@ -85,7 +85,7 @@ const MembershipPaymentReminder = () => {
 
     // Pagination and Sorting States
     const [currentPage, setCurrentPage] = useState(1);
-    let limit = 10;
+    let limit = 20;
     const [sortBy, setSortBy] = useState("");
     const [sortOrderDesc, setSortOrderDesc] = useState(true);
 

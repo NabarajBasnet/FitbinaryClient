@@ -1,6 +1,7 @@
 'use client';
 
-import { MdContentCopy, MdPrint, MdFileDownload } from "react-icons/md";
+import Pagination from "@/components/ui/CustomPagination";
+import { MdContentCopy } from "react-icons/md";
 import {
     Tooltip,
     TooltipContent,
@@ -38,6 +39,10 @@ import { useQuery } from "@tanstack/react-query";
 const TenantMembers = () => {
 
     const api = process.env.NEXT_PUBLIC_API_URL;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [limit, setLimit] = useState(25);
+    const [sortBy, setSortBy] = useState()
+    const [sortOrderDesc, setSortOrderDesc] = useState()
 
     // States
     const [selectedTenant, setSelectedTenant] = useState('');
@@ -64,7 +69,6 @@ const TenantMembers = () => {
 
     const getAllOrganization = async ({ queryKey }) => {
         const [, selectedTenant] = queryKey;
-        console.log(selectedTenant)
         try {
             const response = await fetch(`${api}/tenant/all-organizations?tenant=${selectedTenant}`);
             const resBody = await response.json();
@@ -104,9 +108,9 @@ const TenantMembers = () => {
     const { organizationsBranches } = orgBranches || {};
 
     const getAllMembers = async ({ queryKey }) => {
-        const [, selectedOrganizationBranch] = queryKey
+        const [, selectedOrganizationBranch, page, limit] = queryKey
         try {
-            const response = await fetch(`${api}/tenant/all-members?branch=${selectedOrganizationBranch}`);
+            const response = await fetch(`${api}/tenant/all-members?branch=${selectedOrganizationBranch}&page=${page}&limit=${limit}`);
             const resBody = await response.json();
             return resBody;
         } catch (error) {
@@ -116,17 +120,16 @@ const TenantMembers = () => {
     }
 
     const { data: membersData, isLoading: isMembersLoading } = useQuery({
-        queryKey: ['members', selectedOrganizationBranch],
+        queryKey: ['members', selectedOrganizationBranch, currentPage, limit],
         queryFn: getAllMembers,
         enabled: !!selectedOrganizationBranch
     });
 
-    const { members } = membersData || {};
-    console.log(members);
+    const { members, totalCount, totalPages } = membersData || {};
 
     return (
         <div className="bg-white p-4 dark:bg-gray-950 min-h-screen w-full">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                 <div>
                     <Label className='text-primary'>Search</Label>
                     <Input
@@ -141,12 +144,12 @@ const TenantMembers = () => {
                         <SelectTrigger className="w-full rounded-sm py-6 bg-blue-50 border border-blue-500 dark:bg-gray-800 text-primary">
                             <SelectValue placeholder="Tenants" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className='dark:bg-gray-800 dark:border-none'>
                             <SelectGroup>
-                                <SelectLabel className='text-black'>Select</SelectLabel>
+                                <SelectLabel className='text-primary'>Select</SelectLabel>
                                 {tenants?.map((tenant) => (
                                     <SelectItem
-                                        className='cursor-pointer hover:bg-blue-400 text-black'
+                                        className='cursor-pointer hover:bg-blue-400 text-primary'
                                         value={tenant._id} key={tenant._id}>{tenant?.fullName}</SelectItem>
                                 ))}
                             </SelectGroup>
@@ -160,12 +163,12 @@ const TenantMembers = () => {
                         <SelectTrigger className="w-full rounded-sm py-6 bg-blue-50 border border-blue-500 dark:bg-gray-800 text-primary">
                             <SelectValue placeholder="Select Organization" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className='dark:bg-gray-800 dark:border-none'>
                             <SelectGroup>
                                 <SelectLabel>Organization</SelectLabel>
                                 {organizations?.map((organization) => (
                                     <SelectItem
-                                        className='cursor-pointer hover:bg-blue-400 text-black'
+                                        className='cursor-pointer hover:bg-blue-400 text-primary'
                                         value={organization._id} key={organization._id}>{organization.name}</SelectItem>
                                 ))}
                             </SelectGroup>
@@ -179,12 +182,12 @@ const TenantMembers = () => {
                         <SelectTrigger className="w-full rounded-sm py-6 bg-blue-50 border border-blue-500 dark:bg-gray-800 text-primary">
                             <SelectValue placeholder="Select Organization Branch" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className='dark:bg-gray-800 dark:border-none'>
                             <SelectGroup>
                                 <SelectLabel>Organization Branch</SelectLabel>
                                 {organizationsBranches?.map((branch) => (
                                     <SelectItem
-                                        className='cursor-pointer hover:bg-blue-400 text-black'
+                                        className='cursor-pointer hover:bg-blue-400 text-primary'
                                         value={branch._id} key={branch._id}>{branch.orgBranchName}</SelectItem>
                                 ))}
                             </SelectGroup>
@@ -197,7 +200,7 @@ const TenantMembers = () => {
                 {isLoading ? (
                     <Loader />
                 ) : (
-                    <div className="w-full mb-4 bg-white dark:bg-gray-800 dark:text-white">
+                    <div className="w-full mb-4 bg-white dark:bg-gray-800 dark:text-white rounded-sm">
                         <div className="w-full flex justify-start">
                             <div className="w-full overflow-x-auto static">
                                 <Table className="w-full overflow-x-auto relative dark:text-white">
@@ -386,7 +389,7 @@ const TenantMembers = () => {
                                                 Total Memberships
                                             </TableCell>
                                             <TableCell className="text-right p-4 rounded-r-md">
-                                                {members?.length || 0}
+                                                {totalCount || 0}
                                             </TableCell>
                                         </TableRow>
                                     </TableFooter>
@@ -395,6 +398,13 @@ const TenantMembers = () => {
                         </div>
                     </div>
                 )}
+                <div className="w-full flex justify-center md:justify-end my-4">
+                    <Pagination
+                        total={totalPages || 1}
+                        page={currentPage}
+                        onChange={setCurrentPage}
+                    />
+                </div>
             </div>
         </div>
     )
