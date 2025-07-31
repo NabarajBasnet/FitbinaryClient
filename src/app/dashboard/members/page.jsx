@@ -554,7 +554,7 @@ const AllMembers = () => {
                               </TableCell>
                               <TableCell>{member?.fullName}</TableCell>
                               <TableCell className="text-start">
-                                {member?.membershipDuration}
+                                {member?.membership?.duration / 30} Months
                               </TableCell>
                               <TableCell className="text-start">
                                 {member?.membershipOption ||
@@ -592,7 +592,7 @@ const AllMembers = () => {
                                   member.status.slice(1)}
                               </TableCell>
                               <TableCell className="text-start">
-                                {member.paidAmmount}
+                                <span className="text-sm">{member?.organization?.currency}</span> - <span className="font-semibold text-green-600 dark:text-green-500">{member.paidAmmount}</span>
                               </TableCell>
                               <TableCell className="text-end flex justify-center items-center">
                                 <DropdownMenu>
