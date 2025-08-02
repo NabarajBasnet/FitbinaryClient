@@ -97,9 +97,10 @@ const Lockers = () => {
     const [lockerOrder, setLockerOrder] = useState('');
     const [Lockers, setLockers] = useState();
 
-    const getAllLockers = async () => {
+    const getAllLockers = async ({ queryKey }) => {
+        const [, lockerOrder, lockerStatus] = queryKey;
         try {
-            const response = await fetch(`http://localhost:3000/api/lockers/by-org-branch`);
+            const response = await fetch(`http://localhost:3000/api/lockers/by-org-branch?status=${lockerStatus}&order=${lockerOrder}`);
             const responseBody = await response.json();
             if (response.ok) {
                 setLockers(responseBody.lockers);
@@ -231,7 +232,6 @@ const Lockers = () => {
             sonnerToast.error(error.message);
         }
     };
-
 
     const getSingleLockerInfo = async (id) => {
         try {
