@@ -100,7 +100,7 @@ const Lockers = () => {
     const getAllLockers = async ({ queryKey }) => {
         const [, lockerOrder, lockerStatus] = queryKey;
         try {
-            const response = await fetch(`http://localhost:3000/api/lockers/by-org-branch?status=${lockerStatus}&order=${lockerOrder}`);
+            const response = await fetch(`https://fitbinary.com/api/lockers/by-org-branch?status=${lockerStatus}&order=${lockerOrder}`);
             const responseBody = await response.json();
             if (response.ok) {
                 setLockers(responseBody.lockers);
@@ -127,7 +127,7 @@ const Lockers = () => {
     // Pululate lockers data
     const getAllMembers = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/members?page=${0}&limit=${0}`);
+            const response = await fetch(`https://fitbinary.com/api/members?page=${0}&limit=${0}`);
             const responseBody = await response.json();
             return responseBody;
         } catch (error) {
@@ -203,7 +203,7 @@ const Lockers = () => {
             const { fee, referenceCode, receiptNo } = data;
             const finalData = { lockerId, lockerNumber, memberId, memberName, renewDate, duration, expireDate, fee, paymentMethod, referenceCode, receiptNo };
 
-            const response = await fetch('http://localhost:3000/api/lockers/put', {
+            const response = await fetch('https://fitbinary.com/api/lockers/put', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ const Lockers = () => {
 
     const getSingleLockerInfo = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/lockers/${id}`);
+            const response = await fetch(`https://fitbinary.com/api/lockers/${id}`);
             const responseBody = await response.json();
             setFetchedLocker(responseBody.lockerDetails);
             if (response.ok) {
@@ -260,7 +260,7 @@ const Lockers = () => {
 
     const resetLocker = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/lockers/patch/${id}`, {
+            const response = await fetch(`https://fitbinary.com/api/lockers/patch/${id}`, {
                 method: "PATCH",
             })
             const responseBody = await response.json();

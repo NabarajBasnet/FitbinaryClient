@@ -27,7 +27,7 @@ const chartConfig = {
 export function NewMembersLineChart() {
     const getNewMembers = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/graphdata/newmembers`);
+            const response = await fetch(`https://fitbinary.com/api/graphdata/newmembers`);
             const data = await response.json();
             return Array.isArray(data) ? data : data?.newMembers || [];
         } catch (error) {

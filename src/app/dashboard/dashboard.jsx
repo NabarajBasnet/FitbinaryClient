@@ -67,7 +67,7 @@ const AdminDashboard = () => {
   const getTotalMembers = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/org-members/by-branch?startDate=${startDate}&endDate=${endDate}&limit=${limit}&page=${currentPage}`
+        `https://fitbinary.com/api/org-members/by-branch?startDate=${startDate}&endDate=${endDate}&limit=${limit}&page=${currentPage}`
       );
       const responseBody = await response.json();
 
@@ -87,7 +87,7 @@ const AdminDashboard = () => {
 
   const getAverageActiveMembers = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/averageactivemembers');
+      const response = await fetch('https://fitbinary.com/api/averageactivemembers');
       const responseBody = await response.json();
       if (response.ok) {
         setAverageActiveMembers(responseBody.averageActiveMembers);
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
   // Get New Members
   const getNewMembers = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/memberanalytics/newmembers?startDate=${startDate}&endDate=${endDate}`);
+      const response = await fetch(`https://fitbinary.com/api/memberanalytics/newmembers?startDate=${startDate}&endDate=${endDate}`);
       const responseBody = await response.json();
       return responseBody;
     } catch (error) {
@@ -129,7 +129,7 @@ const AdminDashboard = () => {
     const [, startDate, endDate, page, limit] = queryKey;
     try {
       const response = await fetch(
-        `http://localhost:3000/api/memberanalytics/renewedmembers?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}`
+        `https://fitbinary.com/api/memberanalytics/renewedmembers?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}`
       );
       const responseBody = await response.json();
       return responseBody;
@@ -146,7 +146,7 @@ const AdminDashboard = () => {
 
   const getActiveInactiveMembers = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/graphdata/activeinactivemembers")
+      const response = await fetch("https://fitbinary.com/api/graphdata/activeinactivemembers")
       const data = await response.json()
       return data;
     } catch (error) {
@@ -165,7 +165,7 @@ const AdminDashboard = () => {
 
   const getNewMembersGrowthPercentage = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/graphdata/newmembers`);
+      const response = await fetch(`https://fitbinary.com/api/graphdata/newmembers`);
       const resBody = await response.json();
       return resBody;
     } catch (error) {
@@ -215,7 +215,7 @@ const AdminDashboard = () => {
       value: `${numbersLoading ? '...' : newMembers?.total || 0}`,
       percentage: newMembersGrowthPercentage ? newMembersGrowthPercentage : 0,
       trend: newMembersGrowthPercentage > 0 ? "up" : "down",
-      color: 'text-yellow-600',
+      color: 'text-orange-600',
       bg: 'bg-yellow-100 dark:bg-yellow-700/20',
       border: 'bg-yellow-200',
       description: "Total new member from starting of this month"
@@ -490,7 +490,7 @@ const AdminDashboard = () => {
                       <h1 className={`text-4xl font-bold ${item.color} tracking-tight`}>
                         {item.value.toLocaleString()}
                       </h1>
-                      <span className={`
+                      {/* <span className={`
                         flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-semibold
                         ${item.trend === 'up'
                           ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
@@ -503,7 +503,7 @@ const AdminDashboard = () => {
                           <TrendingDown className="h-3 w-3" />
                         )}
                         {Math.abs(item.percentage)}%
-                      </span>
+                      </span> */}
                     </div>
                     <p className="text-xs font-medium text-gray-500 dark:text-gray-500">
                       {item.description}
