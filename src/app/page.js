@@ -273,7 +273,7 @@ const TenantDashboard = () => {
               </div>
               <span className="text-white font-semibold">Fitbinary</span>
             </div>
-            <span className="text-gray-400">|</span>
+            <span className="text-gray-400 hidden md:flex">|</span>
             <span className="text-gray-300 hidden md:flex">All-in-One Gym Management</span>
           </div>
           <div className="flex items-center space-x-4">
@@ -286,7 +286,6 @@ const TenantDashboard = () => {
               </div>
               <div className="text-right">
                 <div className="text-sm text-white">John Doe</div>
-                <div className="text-xs text-yellow-400">Account: OnSubscription</div>
               </div>
             </div>
           </div>

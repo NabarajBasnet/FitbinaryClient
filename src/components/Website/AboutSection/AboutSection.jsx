@@ -72,7 +72,7 @@ const AboutSection = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                         </div>
 
-                        <div className="absolute -bottom-6 -right-6 bg-blue-600 p-5 rounded-xl border border-gray-700">
+                        <div className="absolute -bottom-4 -right-0 bg-blue-600 p-5 rounded-xl border-none">
                             <p className="font-bold text-white text-lg">Founded in 2024</p>
                             <p className="text-sm text-blue-100">Helping gyms grow since day one</p>
                         </div>
